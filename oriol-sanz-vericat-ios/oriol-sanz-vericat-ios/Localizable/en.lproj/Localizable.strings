@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  oriol-sanz-vericat-ios
+
+  Created by Oriol Sanz Vericat on 19/01/2021.
+  Copyright © 2021 Oriol Sanz Vericat. All rights reserved.
+*/
+
+"main_button_search" = "Search";
