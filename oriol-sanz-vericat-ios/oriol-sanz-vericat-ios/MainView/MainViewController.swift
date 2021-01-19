@@ -9,12 +9,12 @@
 import UIKit
 import Foundation
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var textfield_search_bar: UITextField!
     @IBOutlet weak var tableview_artists_list: UITableView!
+    @IBOutlet weak var searchButton: UIButton!
     
-    var searchTerm: String = ""
     var spotifyToken: String = ""
     
     // The list of all searched artists
@@ -26,16 +26,17 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.showSpinner(onView: self.view)
         spotifyConnect()
         
-        setDelegates()
+        configureComponentes()
     }
     
-    // This function sets the main delegates
-    func setDelegates() {
+    // This function sets the main delegates and configure de main view components
+    func configureComponentes() {
         
-        textfield_search_bar.delegate = self
         textfield_search_bar.autocorrectionType = .no
         tableview_artists_list.delegate = self
         tableview_artists_list.dataSource = self
+        
+        searchButton.setTitle(NSLocalizedString("main_button_search", comment: "The search button title"), for: .normal)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,33 +76,19 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return artistsTableList.count
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        shouldSearch(char: string)
-        return true
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    // In this fuction we check if it's necessary to search, we will need at leas 3 characters to start searching
-    func shouldSearch(char: String) {
-        
-        if char == "" {
-            
-            searchTerm.removeLast()
-        } else {
-            
-            searchTerm.append(char)
-        }
-        if (searchTerm.count > 2) {
+    // In this fuction we use the button to search
+    @IBAction func searchButtonTapped(_ sender: Any) {
+        if let searchTerm = textfield_search_bar.text, searchTerm.count > 2 {
             
             self.showSpinner(onView: self.view)
             searchArtists(searchTerm: searchTerm)
         } else {
             
-            artistsTableList.removeAll()
-            tableview_artists_list.reloadData()
+            // TODO Error control at least 3 chars to search
         }
     }
     
