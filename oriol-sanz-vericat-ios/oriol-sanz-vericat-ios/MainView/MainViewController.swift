@@ -39,6 +39,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchButton.setTitle(NSLocalizedString("main_button_search", comment: "The search button title"), for: .normal)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? DetailViewController {
+            if let index = tableview_artists_list.indexPathForSelectedRow?.row {
+                destination.artist = artistsTableList[index]
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistCell", for: indexPath) as! ArtistTableViewCell
         
@@ -78,6 +86,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: "detailSegue", sender: self)
+        tableview_artists_list.deselectRow(at: indexPath, animated: true)
     }
     
     // In this fuction we use the button to search
