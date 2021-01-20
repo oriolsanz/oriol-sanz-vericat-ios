@@ -32,8 +32,44 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         albumsCollectionView.delegate = self
         albumsCollectionView.dataSource = self
+        albumsCollectionView.dragInteractionEnabled = true
         artist?.albums.removeAll()
         albumsCollectionView.reloadData()
+        
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
+        albumsCollectionView.addGestureRecognizer(gesture)
+    }
+    
+    @objc func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
+        
+        guard let collectionView = albumsCollectionView else {
+            return
+        }
+        
+        switch gesture.state {
+        case .began:
+            guard let targetIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else {
+                return
+            }
+            collectionView.beginInteractiveMovementForItem(at: targetIndexPath)
+        case .changed:
+            collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: collectionView))
+        case .ended:
+            collectionView.endInteractiveMovement()
+        default:
+            collectionView.cancelInteractiveMovement()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        guard let item = artist?.albums.remove(at: sourceIndexPath.row) else {
+            return
+        }
+        artist?.albums.insert(item, at: destinationIndexPath.row)
     }
     
     @IBAction func backButtonTapped(_ sender: Any) {
