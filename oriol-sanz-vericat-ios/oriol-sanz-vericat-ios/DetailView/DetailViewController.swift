@@ -28,7 +28,7 @@ class DetailViewController: UIViewController {
         
         artistNameLabel.text = artist?.name
         artistGenresLabel.text = artist?.musicGenre
-        artistFollowersLabel.text = artist?.followers
+        artistFollowersLabel.text = String(format: NSLocalizedString("detail_followers", comment: "Shows the followers count"), Utils.formatInt(int: artist?.followers ?? 0) ?? 0)
         
         if let imageUrl = artist?.imageUrl {
             if let data = Utils.downloadImage(from: imageUrl), let image = UIImage(data: data) {

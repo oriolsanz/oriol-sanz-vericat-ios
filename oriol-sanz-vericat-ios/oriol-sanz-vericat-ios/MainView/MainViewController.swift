@@ -181,6 +181,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     
                                     var model = ArtistModel.init()
                                     
+                                    if let id = (artist as? [String: Any])?["id"] as? String {
+                                        model.id = id
+                                    }
+                                    
                                     if let name = (artist as? [String: Any])?["name"] as? String {
                                         model.name = name
                                     }
@@ -203,7 +207,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     
                                     if let followers = ((artist as? [String: Any])?["followers"] as? [String:Any])?["total"] {
                                         
-                                        model.followers = followers as? String ?? ""
+                                        model.followers = followers as? Int ?? 0
                                     }
                                     
                                     self.artistsTableList.append(model)

@@ -16,6 +16,7 @@ class Utils {
     static let spotifySecretID: String = "1d33ec4876454d2e817313146fbae994"
     public var token: String = ""
     
+    // This function downloads an image
     public static func downloadImage(from url: String) -> Data? {
         
         let tempURL = URL(string: url)
@@ -25,6 +26,15 @@ class Utils {
             return data
         }
         return nil
+    }
+    
+    // This function formats an Int to a readable String (p.e. 2000 -> 2.000)
+    public static func formatInt(int: Int) -> String?{
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value: int))
+        return formattedNumber
     }
 }
 
