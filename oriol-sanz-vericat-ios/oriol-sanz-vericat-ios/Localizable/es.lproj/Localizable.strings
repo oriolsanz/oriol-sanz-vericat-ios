@@ -7,3 +7,5 @@
 */
 
 "main_button_search" = "Buscar";
+
+"detail_followers" = "%@ seguidores";

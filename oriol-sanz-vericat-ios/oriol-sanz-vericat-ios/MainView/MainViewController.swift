@@ -39,6 +39,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchButton.setTitle(NSLocalizedString("main_button_search", comment: "The search button title"), for: .normal)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? DetailViewController {
+            destination.modalPresentationStyle = .fullScreen
+            if let index = tableview_artists_list.indexPathForSelectedRow?.row {
+                destination.artist = artistsTableList[index]
+                destination.spotifyToken = spotifyToken
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistCell", for: indexPath) as! ArtistTableViewCell
         
@@ -78,6 +88,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: "detailSegue", sender: self)
+        tableview_artists_list.deselectRow(at: indexPath, animated: true)
     }
     
     // In this fuction we use the button to search
@@ -167,6 +183,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     
                                     var model = ArtistModel.init()
                                     
+                                    if let id = (artist as? [String: Any])?["id"] as? String {
+                                        model.id = id
+                                    }
+                                    
                                     if let name = (artist as? [String: Any])?["name"] as? String {
                                         model.name = name
                                     }
@@ -189,7 +209,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     
                                     if let followers = ((artist as? [String: Any])?["followers"] as? [String:Any])?["total"] {
                                         
-                                        model.followers = followers as? String ?? ""
+                                        model.followers = followers as? Int ?? 0
                                     }
                                     
                                     self.artistsTableList.append(model)

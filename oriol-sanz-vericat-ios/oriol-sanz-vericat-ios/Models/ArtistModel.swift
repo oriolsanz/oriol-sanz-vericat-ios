@@ -10,17 +10,19 @@ import Foundation
 
 class ArtistModel {
     
+    var id: String
     var name: String
     var imageUrl: String
     var musicGenre: String
-    var followers: String
+    var followers: Int
     var albums: [ArtistAlbum]
     
     public init() {
+        id = ""
         name = ""
         imageUrl = ""
         musicGenre = ""
-        followers = ""
+        followers = 0
         albums = []
     }
 }
