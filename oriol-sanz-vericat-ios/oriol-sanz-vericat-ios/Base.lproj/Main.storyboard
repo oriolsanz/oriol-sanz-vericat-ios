@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -132,6 +133,53 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="NWV-4d-yCm">
+                                <rect key="frame" x="20" y="331.5" width="374" height="160"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="HfL-VJ-SFB"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="J5W-8r-Jxr">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlbumCell" id="dhR-VX-SeM" customClass="AlbumCollectionViewCell" customModule="oriol_sanz_vericat_ios" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="lve-M7-hau">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C6y-TU-IMA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="30.5"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ivi-nJ-LwQ">
+                                                    <rect key="frame" x="9.5" y="35.5" width="31" height="14.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="C6y-TU-IMA" firstAttribute="top" secondItem="lve-M7-hau" secondAttribute="top" id="3wN-g6-LAK"/>
+                                                <constraint firstItem="Ivi-nJ-LwQ" firstAttribute="centerX" secondItem="lve-M7-hau" secondAttribute="centerX" id="9hk-X1-bRY"/>
+                                                <constraint firstAttribute="trailing" secondItem="C6y-TU-IMA" secondAttribute="trailing" id="H73-5D-gob"/>
+                                                <constraint firstAttribute="bottom" secondItem="Ivi-nJ-LwQ" secondAttribute="bottom" id="HkH-Ue-wiT"/>
+                                                <constraint firstItem="Ivi-nJ-LwQ" firstAttribute="top" secondItem="C6y-TU-IMA" secondAttribute="bottom" constant="5" id="cFm-6N-tA4"/>
+                                                <constraint firstItem="C6y-TU-IMA" firstAttribute="leading" secondItem="lve-M7-hau" secondAttribute="leading" id="j8w-bW-6RQ"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                        <connections>
+                                            <outlet property="albumImage" destination="C6y-TU-IMA" id="9kV-bj-ncd"/>
+                                            <outlet property="albumTitle" destination="Ivi-nJ-LwQ" id="Wp8-wJ-dj5"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -144,13 +192,17 @@
                             <constraint firstItem="sQV-Xn-Sd5" firstAttribute="top" secondItem="eSG-8v-Zq1" secondAttribute="bottom" constant="20" id="X7l-cC-FNC"/>
                             <constraint firstItem="lYW-b7-KaK" firstAttribute="leading" secondItem="8tq-vE-EWv" secondAttribute="leading" constant="20" id="Ylt-44-I5a"/>
                             <constraint firstItem="eSG-8v-Zq1" firstAttribute="leading" secondItem="8tq-vE-EWv" secondAttribute="leading" constant="20" id="ZJm-Z8-1zA"/>
+                            <constraint firstItem="NWV-4d-yCm" firstAttribute="top" secondItem="sQV-Xn-Sd5" secondAttribute="bottom" constant="30" id="dr5-kL-lHX"/>
                             <constraint firstItem="A4l-Kd-uPl" firstAttribute="centerX" secondItem="wSZ-Fl-WPn" secondAttribute="centerX" id="rdz-zL-MWz"/>
                             <constraint firstItem="eSG-8v-Zq1" firstAttribute="top" secondItem="A4l-Kd-uPl" secondAttribute="bottom" constant="20" id="se2-px-qiA"/>
+                            <constraint firstItem="NWV-4d-yCm" firstAttribute="leading" secondItem="8tq-vE-EWv" secondAttribute="leading" constant="20" id="yDw-ht-euy"/>
+                            <constraint firstItem="8tq-vE-EWv" firstAttribute="trailing" secondItem="NWV-4d-yCm" secondAttribute="trailing" constant="20" id="zB0-SG-cSe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8tq-vE-EWv"/>
                     </view>
                     <navigationItem key="navigationItem" id="DMI-RL-oUX"/>
                     <connections>
+                        <outlet property="albumsCollectionView" destination="NWV-4d-yCm" id="ihy-XP-IIu"/>
                         <outlet property="artistFollowersLabel" destination="sQV-Xn-Sd5" id="hBZ-vb-hFq"/>
                         <outlet property="artistGenresLabel" destination="eSG-8v-Zq1" id="kVV-eZ-wqm"/>
                         <outlet property="artistNameLabel" destination="lYW-b7-KaK" id="o8A-5x-mre"/>

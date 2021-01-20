@@ -21,6 +21,7 @@
 		F8B4EF2125B75298001304AF /* ArtistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF2025B75298001304AF /* ArtistTableViewCell.swift */; };
 		F8B4EF2825B75F35001304AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F8B4EF2A25B75F35001304AF /* Localizable.strings */; };
 		F8B4EF3A25B7671F001304AF /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF3925B7671F001304AF /* DetailViewController.swift */; };
+		F8B4EF3C25B8666A001304AF /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF3B25B8666A001304AF /* AlbumCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		F8B4EF3225B75F91001304AF /* ca-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ca-ES"; path = "ca-ES.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F8B4EF3725B76007001304AF /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F8B4EF3925B7671F001304AF /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		F8B4EF3B25B8666A001304AF /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				F8B4EF3925B7671F001304AF /* DetailViewController.swift */,
+				F8B4EF3B25B8666A001304AF /* AlbumCollectionViewCell.swift */,
 			);
 			path = DetailView;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8B4EF3C25B8666A001304AF /* AlbumCollectionViewCell.swift in Sources */,
 				F8A4706325B5C00E00CC2667 /* MainViewController.swift in Sources */,
 				F8B4EF1D25B71558001304AF /* ArtistAlbum.swift in Sources */,
 				F8A4705F25B5C00E00CC2667 /* AppDelegate.swift in Sources */,

@@ -10,11 +10,17 @@ import Foundation
 
 class ArtistAlbum {
     
+    var id: String
     var name: String
     var imageUrl: String
+    var totalTracks: Int
+    var releaseDate: String // format: YYYY-MM-DD
     
     init() {
+        id = ""
         name = ""
         imageUrl = ""
+        totalTracks = 0
+        releaseDate = ""
     }
 }

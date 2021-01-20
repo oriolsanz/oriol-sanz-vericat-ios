@@ -43,6 +43,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let destination = segue.destination as? DetailViewController {
             if let index = tableview_artists_list.indexPathForSelectedRow?.row {
                 destination.artist = artistsTableList[index]
+                destination.spotifyToken = spotifyToken
             }
         }
     }
