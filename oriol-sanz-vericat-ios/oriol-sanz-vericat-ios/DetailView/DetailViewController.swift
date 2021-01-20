@@ -23,7 +23,6 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //self.showSpinner(onView: self.view)
         configureComponents()
         setupArtistDetails()
         getArtistAlbums(artistID: artist?.id ?? "")
@@ -33,9 +32,13 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         albumsCollectionView.delegate = self
         albumsCollectionView.dataSource = self
-        
-        albumsCollectionView.heightAnchor.constraint(equalTo: albumsCollectionView.widthAnchor, multiplier: 0.5).isActive = true
-        
+        artist?.albums.removeAll()
+        albumsCollectionView.reloadData()
+    }
+    
+    @IBAction func backButtonTapped(_ sender: Any) {
+    
+        self.dismiss(animated: true, completion: nil)
     }
     
     func setupArtistDetails() {
@@ -90,7 +93,7 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
             let options = [
                 kCGImageSourceCreateThumbnailWithTransform: true,
                 kCGImageSourceCreateThumbnailFromImageAlways: true,
-                kCGImageSourceThumbnailMaxPixelSize: 80] as CFDictionary
+                kCGImageSourceThumbnailMaxPixelSize: 160] as CFDictionary
             
             if let imageData = thumbnail.pngData(),
                 let imageSource = CGImageSourceCreateWithData(imageData as NSData, nil),
@@ -106,13 +109,14 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
             
             cell.albumImage.image = UIImage(named: "profile_empty")
         }
-        
+        cell.layoutIfNeeded()
         return cell
     }
     
     // Method to download the Albums
     func getArtistAlbums(artistID: String) {
         
+        showSpinner(onView: self.view)
         let request = NSMutableURLRequest(url: NSURL(string: "https://api.spotify.com/v1/artists/\(artistID)/albums")! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
         
         if let token = spotifyToken {
@@ -185,19 +189,5 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
             }
         })
         dataTask.resume()
-    }
-}
-
-extension DetailViewController: UICollectionViewDelegateFlowLayout{
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        /*let columns = 3
-        let width = Int(UIScreen.main.bounds.width)
-        let side = width / columns
-        let rem = width % columns
-        let addOne = indexPath.row % columns < rem
-        let ceilWidth = addOne ? side + 1 : side
-        return CGSize(width: ceilWidth, height: side)*/
-        return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.height/2)
     }
 }

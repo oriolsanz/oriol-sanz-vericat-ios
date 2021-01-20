@@ -41,6 +41,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? DetailViewController {
+            destination.modalPresentationStyle = .fullScreen
             if let index = tableview_artists_list.indexPathForSelectedRow?.row {
                 destination.artist = artistsTableList[index]
                 destination.spotifyToken = spotifyToken
