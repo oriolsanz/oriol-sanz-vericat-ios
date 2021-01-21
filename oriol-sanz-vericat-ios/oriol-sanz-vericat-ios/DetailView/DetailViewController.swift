@@ -9,16 +9,25 @@
 import Foundation
 import UIKit
 
-class DetailViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class DetailViewController: UIViewController {
     
     @IBOutlet weak var artistNameLabel: UILabel!
     @IBOutlet weak var artistProfileImageView: UIImageView!
     @IBOutlet weak var artistGenresLabel: UILabel!
     @IBOutlet weak var artistFollowersLabel: UILabel!
     @IBOutlet weak var albumsCollectionView: UICollectionView!
+    @IBOutlet weak var filterByDateButton: UIButton!
+    @IBOutlet weak var filterFromLabel: UILabel!
+    @IBOutlet weak var filterToLabel: UILabel!
     
     var artist: ArtistModel?
+    var shownAlbums: [ArtistAlbum] = []
     var spotifyToken: String?
+    
+    let fromCheck: Int = 0
+    let toCheck: Int = 1
+    var fromDate: Date?
+    var toDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,17 +37,128 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         getArtistAlbums(artistID: artist?.id ?? "")
     }
     
+    // Function for configure components
     func configureComponents() {
         
         albumsCollectionView.delegate = self
         albumsCollectionView.dataSource = self
         albumsCollectionView.dragInteractionEnabled = true
+        shownAlbums = []
         artist?.albums.removeAll()
         albumsCollectionView.reloadData()
         
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
         albumsCollectionView.addGestureRecognizer(gesture)
+        
+        let fromGesture = UITapGestureRecognizer(target: self, action: #selector(handleFromPressGesture(_:)))
+        filterFromLabel.isUserInteractionEnabled = true
+        filterFromLabel.addGestureRecognizer(fromGesture)
+        
+        let toGesture = UITapGestureRecognizer(target: self, action: #selector(handleToPressGesture(_:)))
+        filterToLabel.isUserInteractionEnabled = true
+        filterToLabel.addGestureRecognizer(toGesture)
+        
+        filterByDateButton.titleLabel?.text = NSLocalizedString("detail_filter_by_date", comment: "Filter title")
+        filterFromLabel.text = NSLocalizedString("detail_filter_by_date_from", comment: "Filter from")
+        filterToLabel.text = NSLocalizedString("detail_filter_by_date_to", comment: "Filter to")
     }
+    
+    // Function to configure the model
+    func setupArtistDetails() {
+        
+        artistNameLabel.text = artist?.name
+        artistGenresLabel.text = artist?.musicGenre
+        artistFollowersLabel.text = String(format: NSLocalizedString("detail_followers", comment: "Shows the followers count"), Utils.formatInt(int: artist?.followers ?? 0) ?? 0)
+        artistProfileImageView.image = Utils.getImage(from: artist?.imageUrl ?? "")
+        
+    }
+    
+    // Back button pressed action
+    @IBAction func backButtonTapped(_ sender: Any) {
+    
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+// Extension for picker and filter
+extension DetailViewController {
+    
+    // PressGesture for From date label
+    @objc func handleFromPressGesture(_ gesture: UITapGestureRecognizer) {
+        
+        presentDatePicker(title: NSLocalizedString("detail_filter_by_date_from", comment: "Filter from"), label: filterFromLabel, check: fromCheck)
+    }
+    
+    // PressGesture for To date label
+    @objc func handleToPressGesture(_ gesture: UITapGestureRecognizer) {
+        
+        presentDatePicker(title: NSLocalizedString("detail_filter_by_date_to", comment: "Filter to"), label: filterToLabel, check: toCheck)
+    }
+    
+    // Filter Button pressed
+    @IBAction func filterByDatePressed(_ sender: Any) {
+        
+        guard let fromDate = fromDate, let toDate = toDate else {
+            // TODO Error
+            print("Dates null")
+            return
+        }
+        
+        if fromDate > toDate {
+            // TODO Error
+            print("from > to")
+            return
+        }
+        
+        var tempAlbums: [ArtistAlbum] = []
+        if let albums = artist?.albums {
+            for album in albums {
+                
+                let albumDate = album.releaseDate
+                if fromDate < albumDate && toDate > albumDate {
+                    
+                    tempAlbums.append(album)
+                }
+            }
+            shownAlbums.removeAll()
+            
+            for album in tempAlbums {
+                
+                shownAlbums.append(album)
+            }
+            albumsCollectionView.reloadData()
+        } else {
+            // TODO Error
+            print("No hay albumes")
+        }
+    }
+    
+    // Show Date Picker
+    func presentDatePicker(title: String, label: UILabel, check: Int) {
+        
+        let myDatePicker: UIDatePicker = UIDatePicker()
+        myDatePicker.frame = CGRect(x: 0, y: 15, width: 270, height: 200)
+        myDatePicker.datePickerMode = .date
+        myDatePicker.maximumDate = Date()
+        let alertController = UIAlertController(title: "\(title)\n\n\n\n\n\n\n\n", message: nil, preferredStyle: .alert)
+        alertController.view.addSubview(myDatePicker)
+        let selectAction = UIAlertAction(title: NSLocalizedString("picker_view_accept", comment: "Accept"), style: .default, handler: { _ in
+            label.text = Utils.getStringDate(date: myDatePicker.date)
+            if check == self.fromCheck {
+                self.fromDate = myDatePicker.date
+            } else if check == self.toCheck {
+                self.toDate = myDatePicker.date
+            }
+        })
+        let cancelAction = UIAlertAction(title: NSLocalizedString("picker_view_cancel", comment: "Cancel"), style: .cancel, handler: nil)
+        alertController.addAction(selectAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
+    }
+}
+
+// Extension for Drag & Drop
+extension DetailViewController {
     
     @objc func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
         
@@ -66,88 +186,31 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let item = artist?.albums.remove(at: sourceIndexPath.row) else {
-            return
-        }
-        artist?.albums.insert(item, at: destinationIndexPath.row)
+        let item = shownAlbums.remove(at: sourceIndexPath.row)
+        shownAlbums.insert(item, at: destinationIndexPath.row)
     }
-    
-    @IBAction func backButtonTapped(_ sender: Any) {
-    
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func setupArtistDetails() {
-        
-        artistNameLabel.text = artist?.name
-        artistGenresLabel.text = artist?.musicGenre
-        artistFollowersLabel.text = String(format: NSLocalizedString("detail_followers", comment: "Shows the followers count"), Utils.formatInt(int: artist?.followers ?? 0) ?? 0)
-        
-        if let imageUrl = artist?.imageUrl {
-            if let data = Utils.downloadImage(from: imageUrl), let image = UIImage(data: data) {
-                
-                // Thumbnail with image
-                let thumbnail = image
-                let options = [
-                    kCGImageSourceCreateThumbnailWithTransform: true,
-                    kCGImageSourceCreateThumbnailFromImageAlways: true,
-                    kCGImageSourceThumbnailMaxPixelSize: 80] as CFDictionary
-                
-                if let imageData = thumbnail.pngData(),
-                    let imageSource = CGImageSourceCreateWithData(imageData as NSData, nil),
-                    let finalImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options) {
-                    
-                    artistProfileImageView.image = UIImage(cgImage: finalImage)
-                } else {
-                    
-                    artistProfileImageView.image = image
-                }
-                
-            } else {
-                
-                artistProfileImageView.image = UIImage(named: "profile_empty")
-            }
-        } else {
-            artistProfileImageView.image = UIImage(named: "profile_empty")
-        }
-    }
+}
+
+// Extension for CollectionView Delegate & Date Source
+extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        artist?.albums.count ?? 0
+        shownAlbums.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AlbumCell", for: indexPath) as! AlbumCollectionViewCell
         
-        let album = artist?.albums[indexPath.row]
-        cell.albumTitle.text = album?.name
+        let album = shownAlbums[indexPath.row]
+        cell.albumTitle.text = album.name
+        cell.albumImage.image = Utils.getImage(from: album.imageUrl)
         
-        if let data = Utils.downloadImage(from: album?.imageUrl ?? ""), let image = UIImage(data: data) {
-            
-            // Thumbnail with image
-            let thumbnail = image
-            let options = [
-                kCGImageSourceCreateThumbnailWithTransform: true,
-                kCGImageSourceCreateThumbnailFromImageAlways: true,
-                kCGImageSourceThumbnailMaxPixelSize: 160] as CFDictionary
-            
-            if let imageData = thumbnail.pngData(),
-                let imageSource = CGImageSourceCreateWithData(imageData as NSData, nil),
-                let finalImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options) {
-                
-                cell.albumImage.image = UIImage(cgImage: finalImage)
-            } else {
-                
-                cell.albumImage.image = image
-            }
-            
-        } else {
-            
-            cell.albumImage.image = UIImage(named: "profile_empty")
-        }
         cell.layoutIfNeeded()
         return cell
     }
+}
+
+extension DetailViewController {
     
     // Method to download the Albums
     func getArtistAlbums(artistID: String) {
@@ -204,10 +267,15 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
                                 }
                                 
                                 if let releaseDate = (album as? [String: Any])?["release_date"] as? String {
-                                    model.releaseDate = releaseDate
+                                    
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.dateFormat = "yyyy-MM-dd"
+                                    let date = dateFormatter.date(from: releaseDate)
+                                    model.releaseDate = date ?? Date()
                                 }
                                 
                                 self.artist?.albums.append(model)
+                                self.shownAlbums.append(model)
                             }
                             DispatchQueue.main.async {
                                 self.albumsCollectionView.reloadData()

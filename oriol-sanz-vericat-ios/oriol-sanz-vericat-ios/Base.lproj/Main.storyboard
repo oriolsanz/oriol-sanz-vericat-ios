@@ -197,23 +197,61 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" text="Desde:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ut-bb-zJq">
+                                <rect key="frame" x="20" y="537.5" width="175.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" verticalHuggingPriority="252" translatesAutoresizingMaskIntoConstraints="NO" id="9Mj-0T-Uva">
+                                <rect key="frame" x="205.5" y="523.5" width="3" height="30"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="8HX-rG-tMA"/>
+                                    <constraint firstAttribute="width" constant="3" id="WsG-YL-gWs"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Hasta:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VAR-Cf-Eue">
+                                <rect key="frame" x="218.5" y="537.5" width="175.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cXR-tG-Pmo">
+                                <rect key="frame" x="10" y="501.5" width="394" height="30"/>
+                                <state key="normal" title="Filtrar por fecha"/>
+                                <connections>
+                                    <action selector="filterByDatePressed:" destination="lSa-9j-gvn" eventType="touchUpInside" id="Bjm-0s-tF7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="9Mj-0T-Uva" firstAttribute="leading" secondItem="5Ut-bb-zJq" secondAttribute="trailing" constant="10" id="1qm-Eo-9hI"/>
+                            <constraint firstItem="VAR-Cf-Eue" firstAttribute="top" secondItem="cXR-tG-Pmo" secondAttribute="bottom" constant="6" id="25d-rl-1dh"/>
+                            <constraint firstItem="5Ut-bb-zJq" firstAttribute="top" secondItem="cXR-tG-Pmo" secondAttribute="bottom" constant="6" id="4Qa-X9-8dA"/>
                             <constraint firstItem="sQV-Xn-Sd5" firstAttribute="leading" secondItem="8tq-vE-EWv" secondAttribute="leading" constant="20" id="A9o-iY-5Gp"/>
                             <constraint firstItem="A4l-Kd-uPl" firstAttribute="top" secondItem="lYW-b7-KaK" secondAttribute="bottom" constant="20" id="CG2-BT-voQ"/>
                             <constraint firstItem="8tq-vE-EWv" firstAttribute="trailing" secondItem="lYW-b7-KaK" secondAttribute="trailing" constant="20" id="DhJ-Eu-7hs"/>
+                            <constraint firstItem="5Ut-bb-zJq" firstAttribute="leading" secondItem="8tq-vE-EWv" secondAttribute="leading" constant="20" id="NWB-Z1-bA0"/>
+                            <constraint firstItem="9Mj-0T-Uva" firstAttribute="top" secondItem="cXR-tG-Pmo" secondAttribute="bottomMargin" id="PoN-b7-Qc5"/>
                             <constraint firstItem="8tq-vE-EWv" firstAttribute="trailing" secondItem="eSG-8v-Zq1" secondAttribute="trailing" constant="20" id="TpM-Qf-PUP"/>
                             <constraint firstItem="lYW-b7-KaK" firstAttribute="top" secondItem="8tq-vE-EWv" secondAttribute="top" constant="20" id="U4d-8H-ATU"/>
                             <constraint firstItem="8tq-vE-EWv" firstAttribute="trailing" secondItem="sQV-Xn-Sd5" secondAttribute="trailing" constant="20" id="Vpt-4J-gqN"/>
                             <constraint firstItem="sQV-Xn-Sd5" firstAttribute="top" secondItem="eSG-8v-Zq1" secondAttribute="bottom" constant="20" id="X7l-cC-FNC"/>
+                            <constraint firstItem="8tq-vE-EWv" firstAttribute="trailing" secondItem="cXR-tG-Pmo" secondAttribute="trailing" constant="10" id="Yhf-Oo-eXo"/>
                             <constraint firstItem="lYW-b7-KaK" firstAttribute="leading" secondItem="8tq-vE-EWv" secondAttribute="leading" constant="20" id="Ylt-44-I5a"/>
                             <constraint firstItem="eSG-8v-Zq1" firstAttribute="leading" secondItem="8tq-vE-EWv" secondAttribute="leading" constant="20" id="ZJm-Z8-1zA"/>
                             <constraint firstItem="mdZ-rk-o4p" firstAttribute="leading" secondItem="8tq-vE-EWv" secondAttribute="leading" constant="20" id="aIc-F2-1qQ"/>
+                            <constraint firstItem="cXR-tG-Pmo" firstAttribute="top" secondItem="NWV-4d-yCm" secondAttribute="bottom" constant="10" id="dLe-cp-N87"/>
                             <constraint firstItem="NWV-4d-yCm" firstAttribute="top" secondItem="sQV-Xn-Sd5" secondAttribute="bottom" constant="30" id="dr5-kL-lHX"/>
+                            <constraint firstItem="cXR-tG-Pmo" firstAttribute="leading" secondItem="8tq-vE-EWv" secondAttribute="leading" constant="10" id="eec-js-yKU"/>
                             <constraint firstItem="mdZ-rk-o4p" firstAttribute="top" secondItem="8tq-vE-EWv" secondAttribute="top" constant="20" id="fRC-9a-uDb"/>
+                            <constraint firstItem="VAR-Cf-Eue" firstAttribute="leading" secondItem="9Mj-0T-Uva" secondAttribute="trailing" constant="10" id="pFp-6I-7Z8"/>
                             <constraint firstItem="A4l-Kd-uPl" firstAttribute="centerX" secondItem="wSZ-Fl-WPn" secondAttribute="centerX" id="rdz-zL-MWz"/>
                             <constraint firstItem="eSG-8v-Zq1" firstAttribute="top" secondItem="A4l-Kd-uPl" secondAttribute="bottom" constant="20" id="se2-px-qiA"/>
+                            <constraint firstItem="9Mj-0T-Uva" firstAttribute="centerX" secondItem="wSZ-Fl-WPn" secondAttribute="centerX" id="xDM-gK-whC"/>
+                            <constraint firstItem="8tq-vE-EWv" firstAttribute="trailing" secondItem="VAR-Cf-Eue" secondAttribute="trailing" constant="20" id="xT7-5j-idJ"/>
                             <constraint firstItem="NWV-4d-yCm" firstAttribute="leading" secondItem="8tq-vE-EWv" secondAttribute="leading" constant="20" id="yDw-ht-euy"/>
                             <constraint firstItem="8tq-vE-EWv" firstAttribute="trailing" secondItem="NWV-4d-yCm" secondAttribute="trailing" constant="20" id="zB0-SG-cSe"/>
                         </constraints>
@@ -226,6 +264,9 @@
                         <outlet property="artistGenresLabel" destination="eSG-8v-Zq1" id="kVV-eZ-wqm"/>
                         <outlet property="artistNameLabel" destination="lYW-b7-KaK" id="o8A-5x-mre"/>
                         <outlet property="artistProfileImageView" destination="A4l-Kd-uPl" id="oj2-vJ-8h3"/>
+                        <outlet property="filterByDateButton" destination="cXR-tG-Pmo" id="8tF-FF-2Qb"/>
+                        <outlet property="filterFromLabel" destination="5Ut-bb-zJq" id="Fl4-sJ-OTN"/>
+                        <outlet property="filterToLabel" destination="VAR-Cf-Eue" id="Cfx-Fv-Umy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BFh-dZ-c8d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
