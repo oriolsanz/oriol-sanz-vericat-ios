@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: UIViewController {
 
     @IBOutlet weak var textfield_search_bar: UITextField!
     @IBOutlet weak var tableview_artists_list: UITableView!
@@ -39,6 +39,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchButton.setTitle(NSLocalizedString("main_button_search", comment: "The search button title"), for: .normal)
     }
     
+    // Prepare for Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? DetailViewController {
             destination.modalPresentationStyle = .fullScreen
@@ -48,6 +49,22 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }
+    
+    // Search Button tap
+    @IBAction func searchButtonTapped(_ sender: Any) {
+        if let searchTerm = textfield_search_bar.text, searchTerm.count > 2 {
+            
+            self.showSpinner(onView: self.view)
+            searchArtists(searchTerm: searchTerm)
+        } else {
+            
+            // TODO Error control at least 3 chars to search
+        }
+    }
+}
+
+// Extension for TableView Delegate & Data Source
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistCell", for: indexPath) as! ArtistTableViewCell
@@ -72,18 +89,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         performSegue(withIdentifier: "detailSegue", sender: self)
         tableview_artists_list.deselectRow(at: indexPath, animated: true)
     }
-    
-    // In this fuction we use the button to search
-    @IBAction func searchButtonTapped(_ sender: Any) {
-        if let searchTerm = textfield_search_bar.text, searchTerm.count > 2 {
-            
-            self.showSpinner(onView: self.view)
-            searchArtists(searchTerm: searchTerm)
-        } else {
-            
-            // TODO Error control at least 3 chars to search
-        }
-    }
+}
+
+// Extension for Services
+extension MainViewController {
     
     // This function connects to SpotifyAPI to get the Token we need to work
     func spotifyConnect() {
@@ -213,4 +222,3 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         dataTask.resume()
     }
 }
-

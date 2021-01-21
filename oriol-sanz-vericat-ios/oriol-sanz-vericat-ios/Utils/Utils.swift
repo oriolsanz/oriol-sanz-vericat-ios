@@ -76,6 +76,7 @@ class Utils {
     }
 }
 
+// Extension for spinner
 extension UIViewController {
     func showSpinner(onView : UIView) {
         let spinnerView = UIView.init(frame: onView.bounds)
@@ -100,6 +101,7 @@ extension UIViewController {
     }
 }
 
+// Date extension for get the day, month and year
 extension Date {
     func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
         return calendar.dateComponents(Set(components), from: self)

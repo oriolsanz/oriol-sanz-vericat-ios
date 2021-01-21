@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class DetailViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class DetailViewController: UIViewController {
     
     @IBOutlet weak var artistNameLabel: UILabel!
     @IBOutlet weak var artistProfileImageView: UIImageView!
@@ -37,6 +37,7 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         getArtistAlbums(artistID: artist?.id ?? "")
     }
     
+    // Function for configure components
     func configureComponents() {
         
         albumsCollectionView.delegate = self
@@ -62,16 +63,39 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         filterToLabel.text = NSLocalizedString("detail_filter_by_date_to", comment: "Filter to")
     }
     
+    // Function to configure the model
+    func setupArtistDetails() {
+        
+        artistNameLabel.text = artist?.name
+        artistGenresLabel.text = artist?.musicGenre
+        artistFollowersLabel.text = String(format: NSLocalizedString("detail_followers", comment: "Shows the followers count"), Utils.formatInt(int: artist?.followers ?? 0) ?? 0)
+        artistProfileImageView.image = Utils.getImage(from: artist?.imageUrl ?? "")
+        
+    }
+    
+    // Back button pressed action
+    @IBAction func backButtonTapped(_ sender: Any) {
+    
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+// Extension for picker and filter
+extension DetailViewController {
+    
+    // PressGesture for From date label
     @objc func handleFromPressGesture(_ gesture: UITapGestureRecognizer) {
         
         presentDatePicker(title: NSLocalizedString("detail_filter_by_date_from", comment: "Filter from"), label: filterFromLabel, check: fromCheck)
     }
     
+    // PressGesture for To date label
     @objc func handleToPressGesture(_ gesture: UITapGestureRecognizer) {
         
         presentDatePicker(title: NSLocalizedString("detail_filter_by_date_to", comment: "Filter to"), label: filterToLabel, check: toCheck)
     }
     
+    // Filter Button pressed
     @IBAction func filterByDatePressed(_ sender: Any) {
         
         guard let fromDate = fromDate, let toDate = toDate else {
@@ -109,6 +133,7 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
     }
     
+    // Show Date Picker
     func presentDatePicker(title: String, label: UILabel, check: Int) {
         
         let myDatePicker: UIDatePicker = UIDatePicker()
@@ -124,13 +149,16 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
             } else if check == self.toCheck {
                 self.toDate = myDatePicker.date
             }
-            //print("Selected Date: \(myDatePicker.date)")
         })
         let cancelAction = UIAlertAction(title: NSLocalizedString("picker_view_cancel", comment: "Cancel"), style: .cancel, handler: nil)
         alertController.addAction(selectAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
     }
+}
+
+// Extension for Drag & Drop
+extension DetailViewController {
     
     @objc func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
         
@@ -161,20 +189,10 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         let item = shownAlbums.remove(at: sourceIndexPath.row)
         shownAlbums.insert(item, at: destinationIndexPath.row)
     }
-    
-    @IBAction func backButtonTapped(_ sender: Any) {
-    
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func setupArtistDetails() {
-        
-        artistNameLabel.text = artist?.name
-        artistGenresLabel.text = artist?.musicGenre
-        artistFollowersLabel.text = String(format: NSLocalizedString("detail_followers", comment: "Shows the followers count"), Utils.formatInt(int: artist?.followers ?? 0) ?? 0)
-        artistProfileImageView.image = Utils.getImage(from: artist?.imageUrl ?? "")
-        
-    }
+}
+
+// Extension for CollectionView Delegate & Date Source
+extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         shownAlbums.count
@@ -190,6 +208,9 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         cell.layoutIfNeeded()
         return cell
     }
+}
+
+extension DetailViewController {
     
     // Method to download the Albums
     func getArtistAlbums(artistID: String) {
