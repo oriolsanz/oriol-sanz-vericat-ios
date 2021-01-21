@@ -18,3 +18,13 @@
 // DetailView PickerView
 "picker_view_accept" = "Acceptar";
 "picker_view_cancel" = "Cancel·lar";
+
+// Errors
+"error_title" = "Hi ha hagut un error";
+"error_ok" = "D'acord";
+
+"error_three_characters_required" = "Es requereixen al menys 3 caràcters";
+"error_default_text" = "S'ha produït un error inesperat";
+"error_dates_needed" = "Heu d'omplir les 2 dates per filtrar";
+"error_back_to_the_future" = "No es pot buscar des d'una data posterior a la de destí";
+"error_no_albums" = "No hi ha àlbums per filtrar";

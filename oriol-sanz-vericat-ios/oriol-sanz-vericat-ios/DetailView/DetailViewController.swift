@@ -80,6 +80,22 @@ class DetailViewController: UIViewController {
     }
 }
 
+// Extension to present error
+extension DetailViewController {
+    
+    func presentError(description: String) {
+        let alert = UIAlertController(title: NSLocalizedString("error_title", comment: "Error title"),
+                                          message: description,
+                                          preferredStyle: .alert)
+
+            alert.addAction(UIAlertAction(title: NSLocalizedString("error_ok", comment: "Error ok button"),
+                                          style: .default,
+                                          handler: nil))
+
+            self.present(alert, animated: true)
+    }
+}
+
 // Extension for picker and filter
 extension DetailViewController {
     
@@ -99,14 +115,12 @@ extension DetailViewController {
     @IBAction func filterByDatePressed(_ sender: Any) {
         
         guard let fromDate = fromDate, let toDate = toDate else {
-            // TODO Error
-            print("Dates null")
+            self.presentError(description: NSLocalizedString("error_dates_needed", comment: "Error description"))
             return
         }
         
         if fromDate > toDate {
-            // TODO Error
-            print("from > to")
+            self.presentError(description: NSLocalizedString("error_back_to_the_future", comment: "Error description"))
             return
         }
         
@@ -128,8 +142,7 @@ extension DetailViewController {
             }
             albumsCollectionView.reloadData()
         } else {
-            // TODO Error
-            print("No hay albumes")
+            self.presentError(description: NSLocalizedString("error_no_albums", comment: "Error description"))
         }
     }
     
@@ -233,8 +246,10 @@ extension DetailViewController {
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) in
             
             if error != nil {
-                // TODO Error control
-                self.removeSpinner()
+                DispatchQueue.main.async {
+                    self.removeSpinner()
+                    self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                }
             } else {
                 if let data = data {
                     
@@ -283,12 +298,16 @@ extension DetailViewController {
                             }
                         }
                     } else {
-                        // TODO ERROR Control
-                        self.removeSpinner()
+                        DispatchQueue.main.async {
+                            self.removeSpinner()
+                            self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                        }
                     }
                 } else {
-                    // TODO ERROR Control
-                    self.removeSpinner()
+                    DispatchQueue.main.async {
+                        self.removeSpinner()
+                        self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                    }
                 }
             }
         })

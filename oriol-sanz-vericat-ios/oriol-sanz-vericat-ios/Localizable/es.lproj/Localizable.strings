@@ -18,3 +18,13 @@
 // DetailView PickerView
 "picker_view_accept" = "Aceptar";
 "picker_view_cancel" = "Cancelar";
+
+// Errors
+"error_title" = "Ha ocurrido un error";
+"error_ok" = "Aceptar";
+
+"error_three_characters_required" = "Se requieren al menos 3 caracteres";
+"error_default_text" = "Se ha producido un error inesperado";
+"error_dates_needed" = "Debe rellenar las 2 fechas para filtrar";
+"error_back_to_the_future" = "No se puede buscar desde una fecha posterior a la fecha de destino";
+"error_no_albums" = "No hay álbumes para filtrar";

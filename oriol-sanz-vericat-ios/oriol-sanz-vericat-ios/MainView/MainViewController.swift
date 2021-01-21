@@ -58,8 +58,24 @@ class MainViewController: UIViewController {
             searchArtists(searchTerm: searchTerm)
         } else {
             
-            // TODO Error control at least 3 chars to search
+            presentError(description: NSLocalizedString("error_three_characters_required", comment: "Error description"))
         }
+    }
+}
+
+// Extension to present error
+extension MainViewController {
+    
+    func presentError(description: String) {
+        let alert = UIAlertController(title: NSLocalizedString("error_title", comment: "Error title"),
+                                          message: description,
+                                          preferredStyle: .alert)
+
+            alert.addAction(UIAlertAction(title: NSLocalizedString("error_ok", comment: "Error ok button"),
+                                          style: .default,
+                                          handler: nil))
+
+            self.present(alert, animated: true)
     }
 }
 
@@ -112,21 +128,24 @@ extension MainViewController {
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             
             if (error != nil) {
-                // TODO Error control
+                self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
                 self.removeSpinner()
-                print(error)
             } else {
                 if let data = data {
                     if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                         self.spotifyToken = jsonResponse["access_token"] as? String ?? ""
                         self.removeSpinner()
                     } else {
-                        self.removeSpinner()
-                        // TODO Error Control
+                        DispatchQueue.main.async {
+                            self.removeSpinner()
+                            self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                        }
                     }
                 } else {
-                    self.removeSpinner()
-                    // TODO Error Control
+                    DispatchQueue.main.async {
+                        self.removeSpinner()
+                        self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                    }
                 }
             }
         })
@@ -154,8 +173,10 @@ extension MainViewController {
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) in
             
             if error != nil {
-                // TODO Error control
-                self.removeSpinner()
+                DispatchQueue.main.async {
+                    self.removeSpinner()
+                    self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                }
             } else {
                 if let data = data {
                     // TODO paginación key "next"
@@ -206,16 +227,22 @@ extension MainViewController {
                                 }
                             }
                         } else {
-                            // TODO ERROR control
-                            self.removeSpinner()
+                            DispatchQueue.main.async {
+                                self.removeSpinner()
+                                self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                            }
                         }
                     } else {
-                        // TODO ERROR Control
-                        self.removeSpinner()
+                        DispatchQueue.main.async {
+                            self.removeSpinner()
+                            self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                        }
                     }
                 } else {
-                    // TODO ERROR Control
-                    self.removeSpinner()
+                    DispatchQueue.main.async {
+                        self.removeSpinner()
+                        self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                    }
                 }
             }
         })
