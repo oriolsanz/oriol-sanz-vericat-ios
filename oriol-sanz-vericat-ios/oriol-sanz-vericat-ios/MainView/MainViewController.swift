@@ -54,30 +54,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let artist = artistsTableList[indexPath.row]
         cell.artistName.text = artist.name
-        
-        if let data = Utils.downloadImage(from: artist.imageUrl), let image = UIImage(data: data) {
-            
-            // Thumbnail with image
-            let thumbnail = image
-            let options = [
-                kCGImageSourceCreateThumbnailWithTransform: true,
-                kCGImageSourceCreateThumbnailFromImageAlways: true,
-                kCGImageSourceThumbnailMaxPixelSize: 80] as CFDictionary
-            
-            if let imageData = thumbnail.pngData(),
-                let imageSource = CGImageSourceCreateWithData(imageData as NSData, nil),
-                let finalImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options) {
-                
-                cell.artistImage.image = UIImage(cgImage: finalImage)
-            } else {
-                
-                cell.artistImage.image = image
-            }
-            
-        } else {
-            
-            cell.artistImage.image = UIImage(named: "profile_empty")
-        }
+        cell.artistImage.image = Utils.getImage(from: artist.imageUrl)
         
         return cell
     }

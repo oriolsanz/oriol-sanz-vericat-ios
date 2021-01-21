@@ -16,7 +16,7 @@ class Utils {
     static let spotifySecretID: String = "1d33ec4876454d2e817313146fbae994"
     
     // This function downloads an image
-    public static func downloadImage(from url: String) -> Data? {
+    static func downloadImage(from url: String) -> Data? {
         
         let tempURL = URL(string: url)
         
@@ -34,6 +34,35 @@ class Utils {
         numberFormatter.numberStyle = .decimal
         let formattedNumber = numberFormatter.string(from: NSNumber(value: int))
         return formattedNumber
+    }
+    
+    public static func getImage(from url: String) -> UIImage {
+        if let data = downloadImage(from: url), let image = UIImage(data: data) {
+            
+            // Thumbnail with image
+            let thumbnail = image
+            let options = [
+                kCGImageSourceCreateThumbnailWithTransform: true,
+                kCGImageSourceCreateThumbnailFromImageAlways: true,
+                kCGImageSourceThumbnailMaxPixelSize: 80] as CFDictionary
+            
+            if let imageData = thumbnail.pngData(),
+                let imageSource = CGImageSourceCreateWithData(imageData as NSData, nil),
+                let finalImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options) {
+                
+                return UIImage(cgImage: finalImage)
+            } else {
+                
+                return image
+            }
+            
+        } else {
+            if let defaultImage = UIImage(named: "profile_empty") {
+                return defaultImage
+            } else {
+                return UIImage()
+            }
+        }
     }
 }
 

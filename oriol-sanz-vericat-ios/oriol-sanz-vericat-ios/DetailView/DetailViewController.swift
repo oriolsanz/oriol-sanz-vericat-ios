@@ -82,34 +82,8 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         artistNameLabel.text = artist?.name
         artistGenresLabel.text = artist?.musicGenre
         artistFollowersLabel.text = String(format: NSLocalizedString("detail_followers", comment: "Shows the followers count"), Utils.formatInt(int: artist?.followers ?? 0) ?? 0)
+        artistProfileImageView.image = Utils.getImage(from: artist?.imageUrl ?? "")
         
-        if let imageUrl = artist?.imageUrl {
-            if let data = Utils.downloadImage(from: imageUrl), let image = UIImage(data: data) {
-                
-                // Thumbnail with image
-                let thumbnail = image
-                let options = [
-                    kCGImageSourceCreateThumbnailWithTransform: true,
-                    kCGImageSourceCreateThumbnailFromImageAlways: true,
-                    kCGImageSourceThumbnailMaxPixelSize: 80] as CFDictionary
-                
-                if let imageData = thumbnail.pngData(),
-                    let imageSource = CGImageSourceCreateWithData(imageData as NSData, nil),
-                    let finalImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options) {
-                    
-                    artistProfileImageView.image = UIImage(cgImage: finalImage)
-                } else {
-                    
-                    artistProfileImageView.image = image
-                }
-                
-            } else {
-                
-                artistProfileImageView.image = UIImage(named: "profile_empty")
-            }
-        } else {
-            artistProfileImageView.image = UIImage(named: "profile_empty")
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
