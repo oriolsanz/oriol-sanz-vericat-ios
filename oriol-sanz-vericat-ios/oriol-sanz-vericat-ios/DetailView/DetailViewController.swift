@@ -95,30 +95,8 @@ class DetailViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         let album = artist?.albums[indexPath.row]
         cell.albumTitle.text = album?.name
+        cell.albumImage.image = Utils.getImage(from: album?.imageUrl ?? "")
         
-        if let data = Utils.downloadImage(from: album?.imageUrl ?? ""), let image = UIImage(data: data) {
-            
-            // Thumbnail with image
-            let thumbnail = image
-            let options = [
-                kCGImageSourceCreateThumbnailWithTransform: true,
-                kCGImageSourceCreateThumbnailFromImageAlways: true,
-                kCGImageSourceThumbnailMaxPixelSize: 160] as CFDictionary
-            
-            if let imageData = thumbnail.pngData(),
-                let imageSource = CGImageSourceCreateWithData(imageData as NSData, nil),
-                let finalImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options) {
-                
-                cell.albumImage.image = UIImage(cgImage: finalImage)
-            } else {
-                
-                cell.albumImage.image = image
-            }
-            
-        } else {
-            
-            cell.albumImage.image = UIImage(named: "profile_empty")
-        }
         cell.layoutIfNeeded()
         return cell
     }
