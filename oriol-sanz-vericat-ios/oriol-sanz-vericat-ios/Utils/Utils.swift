@@ -36,6 +36,16 @@ class Utils {
         return formattedNumber
     }
     
+    // This function formats a date to string
+    public static func getStringDate(date: Date) -> String {
+        
+        let components = date.get(.day, .month, .year)
+        let dateString = "\(components.day ?? 1)-\(components.month ?? 1)-\(components.year ?? 2020)"
+        
+        return dateString
+    }
+    
+    // This function return an UIImage giving an url
     public static func getImage(from url: String) -> UIImage {
         if let data = downloadImage(from: url), let image = UIImage(data: data) {
             
@@ -44,7 +54,7 @@ class Utils {
             let options = [
                 kCGImageSourceCreateThumbnailWithTransform: true,
                 kCGImageSourceCreateThumbnailFromImageAlways: true,
-                kCGImageSourceThumbnailMaxPixelSize: 80] as CFDictionary
+                kCGImageSourceThumbnailMaxPixelSize: 160] as CFDictionary
             
             if let imageData = thumbnail.pngData(),
                 let imageSource = CGImageSourceCreateWithData(imageData as NSData, nil),
@@ -87,5 +97,15 @@ extension UIViewController {
             vSpinner?.removeFromSuperview()
             vSpinner = nil
         }
+    }
+}
+
+extension Date {
+    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
+        return calendar.dateComponents(Set(components), from: self)
+    }
+
+    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
+        return calendar.component(component, from: self)
     }
 }

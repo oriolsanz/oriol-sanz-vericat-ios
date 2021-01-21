@@ -6,6 +6,15 @@
   Copyright © 2021 Oriol Sanz Vericat. All rights reserved.
 */
 
+// MainView
 "main_button_search" = "Search";
 
+// DetailView
 "detail_followers" = "%@ followers";
+"detail_filter_by_date" = "Filter by date";
+"detail_filter_by_date_from" = "From:";
+"detail_filter_by_date_to" = "To:";
+
+// DetailView PickerView
+"picker_view_accept" = "Accept";
+"picker_view_cancel" = "Cancel";

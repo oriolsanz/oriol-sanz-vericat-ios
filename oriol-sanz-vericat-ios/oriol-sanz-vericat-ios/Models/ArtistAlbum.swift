@@ -14,13 +14,13 @@ class ArtistAlbum {
     var name: String
     var imageUrl: String
     var totalTracks: Int
-    var releaseDate: String // format: YYYY-MM-DD
+    var releaseDate: Date
     
     init() {
         id = ""
         name = ""
         imageUrl = ""
         totalTracks = 0
-        releaseDate = ""
+        releaseDate = Date()
     }
 }
