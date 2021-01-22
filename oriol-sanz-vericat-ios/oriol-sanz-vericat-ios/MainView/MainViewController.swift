@@ -17,6 +17,10 @@ class MainViewController: UIViewController {
     
     var spotifyToken: String = ""
     
+    let filesManager: FilesManager = FilesManager.init()
+    
+    var connectionAvailable: Bool = true
+    
     // The list of all searched artists
     var artistsTableList: [ArtistModel] = []
     
@@ -24,13 +28,16 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         self.showSpinner(onView: self.view)
-        spotifyConnect()
-        
         configureComponentes()
+        
+        spotifyConnect()
     }
     
     // This function sets the main delegates and configure de main view components
     func configureComponentes() {
+        
+        artistsTableList.removeAll()
+        tableview_artists_list.reloadData()
         
         textfield_search_bar.autocorrectionType = .no
         tableview_artists_list.delegate = self
@@ -46,19 +53,54 @@ class MainViewController: UIViewController {
             if let index = tableview_artists_list.indexPathForSelectedRow?.row {
                 destination.artist = artistsTableList[index]
                 destination.spotifyToken = spotifyToken
+                destination.artistsList = artistsTableList
             }
         }
     }
     
     // Search Button tap
     @IBAction func searchButtonTapped(_ sender: Any) {
-        if let searchTerm = textfield_search_bar.text, searchTerm.count > 2 {
-            
-            self.showSpinner(onView: self.view)
-            searchArtists(searchTerm: searchTerm)
+        if connectionAvailable {
+            if let searchTerm = textfield_search_bar.text, searchTerm.count > 2 {
+                
+                self.showSpinner(onView: self.view)
+                searchArtists(searchTerm: searchTerm)
+            } else {
+                
+                presentError(description: NSLocalizedString("error_three_characters_required", comment: "Error description"))
+            }
         } else {
-            
-            presentError(description: NSLocalizedString("error_three_characters_required", comment: "Error description"))
+            presentError(description: NSLocalizedString("error_search_without_connection_text", comment: "Error description"))
+        }
+    }
+}
+
+// Extension for save and load data
+extension MainViewController {
+    
+    // Func to save data to disk
+    func saveData() {
+
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let data = try! encoder.encode(self.artistsTableList)
+        do {
+            try Utils.filesManager.save(fileNamed: Utils.savedDataFileName, data: data)
+        } catch {
+            debugPrint("Error saving data")
+        }
+    }
+    
+    // Func to load data from disk
+    func loadArtistsData() {
+        do {
+            let data = try Utils.filesManager.read(fileNamed: Utils.savedDataFileName)
+            let decoder = JSONDecoder()
+            self.artistsTableList = try! decoder.decode([ArtistModel].self, from: data)
+            self.tableview_artists_list.reloadData()
+            self.removeSpinner()
+        } catch {
+            debugPrint("Error loading internal data")
         }
     }
 }
@@ -128,8 +170,11 @@ extension MainViewController {
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             
             if (error != nil) {
-                self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
-                self.removeSpinner()
+                DispatchQueue.main.async {
+                    self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                    self.connectionAvailable = false
+                    self.loadArtistsData()
+                }
             } else {
                 if let data = data {
                     if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
@@ -137,14 +182,16 @@ extension MainViewController {
                         self.removeSpinner()
                     } else {
                         DispatchQueue.main.async {
-                            self.removeSpinner()
-                            self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                            self.connectionAvailable = false
+                            self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                            self.loadArtistsData()
                         }
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.removeSpinner()
-                        self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                        self.connectionAvailable = false
+                        self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                        self.loadArtistsData()
                     }
                 }
             }
@@ -174,8 +221,9 @@ extension MainViewController {
             
             if error != nil {
                 DispatchQueue.main.async {
-                    self.removeSpinner()
-                    self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                    self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                    self.connectionAvailable = false
+                    self.loadArtistsData()
                 }
             } else {
                 if let data = data {
@@ -188,7 +236,7 @@ extension MainViewController {
                             if let artists = items["items"] {
                                 for artist in (artists as! NSArray as! [Any]) {
                                     
-                                    var model = ArtistModel.init()
+                                    let model = ArtistModel.init()
                                     
                                     if let id = (artist as? [String: Any])?["id"] as? String {
                                         model.id = id
@@ -222,8 +270,9 @@ extension MainViewController {
                                     self.artistsTableList.append(model)
                                 }
                                 DispatchQueue.main.async {
-                                    self.removeSpinner()
+                                    self.saveData()
                                     self.tableview_artists_list.reloadData()
+                                    self.removeSpinner()
                                 }
                             }
                         } else {

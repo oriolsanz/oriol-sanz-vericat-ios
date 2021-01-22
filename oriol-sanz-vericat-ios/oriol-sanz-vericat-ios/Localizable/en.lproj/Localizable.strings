@@ -25,6 +25,8 @@
 
 "error_three_characters_required" = "At least 3 characters are required";
 "error_default_text" = "Unexpected error has occurred";
+"error_load_local_text" = "Cannot connect, saved data is being used";
+"error_search_without_connection_text" = "Cannot search without conection";
 "error_dates_needed" = "You have to fill in the 2 dates to filter";
 "error_back_to_the_future" = "You cannot search from a date past the destination date";
 "error_no_albums" = "There are no albums to filter";

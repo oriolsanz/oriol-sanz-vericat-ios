@@ -22,6 +22,7 @@
 		F8B4EF2825B75F35001304AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F8B4EF2A25B75F35001304AF /* Localizable.strings */; };
 		F8B4EF3A25B7671F001304AF /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF3925B7671F001304AF /* DetailViewController.swift */; };
 		F8B4EF3C25B8666A001304AF /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF3B25B8666A001304AF /* AlbumCollectionViewCell.swift */; };
+		F8B4EF5C25B9D5A5001304AF /* FilesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF5B25B9D5A5001304AF /* FilesManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		F8B4EF3725B76007001304AF /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F8B4EF3925B7671F001304AF /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F8B4EF3B25B8666A001304AF /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		F8B4EF5B25B9D5A5001304AF /* FilesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 		F8A4705D25B5C00E00CC2667 /* oriol-sanz-vericat-ios */ = {
 			isa = PBXGroup;
 			children = (
+				F8B4EF5A25B9D598001304AF /* FileManager */,
 				F8B4EF2325B75EBB001304AF /* Localizable */,
 				F8B4EF1925B7149F001304AF /* Models */,
 				F8B4EF1425B6DBB3001304AF /* Utils */,
@@ -189,6 +192,14 @@
 				F8B4EF3B25B8666A001304AF /* AlbumCollectionViewCell.swift */,
 			);
 			path = DetailView;
+			sourceTree = "<group>";
+		};
+		F8B4EF5A25B9D598001304AF /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				F8B4EF5B25B9D5A5001304AF /* FilesManager.swift */,
+			);
+			path = FileManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,6 +341,7 @@
 				F8B4EF1D25B71558001304AF /* ArtistAlbum.swift in Sources */,
 				F8A4705F25B5C00E00CC2667 /* AppDelegate.swift in Sources */,
 				F8A4706125B5C00E00CC2667 /* SceneDelegate.swift in Sources */,
+				F8B4EF5C25B9D5A5001304AF /* FilesManager.swift in Sources */,
 				F8B4EF1B25B714AF001304AF /* ArtistModel.swift in Sources */,
 				F8B4EF1625B6DBE1001304AF /* Utils.swift in Sources */,
 				F8B4EF2125B75298001304AF /* ArtistTableViewCell.swift in Sources */,
