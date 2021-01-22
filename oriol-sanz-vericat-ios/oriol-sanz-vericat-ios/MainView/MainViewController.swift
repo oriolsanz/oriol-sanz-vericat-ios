@@ -19,6 +19,8 @@ class MainViewController: UIViewController {
     
     let filesManager: FilesManager = FilesManager.init()
     
+    var connectionAvailable: Bool = true
+    
     // The list of all searched artists
     var artistsTableList: [ArtistModel] = []
     
@@ -26,9 +28,9 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         self.showSpinner(onView: self.view)
-        spotifyConnect()
-        
         configureComponentes()
+        
+        spotifyConnect()
     }
     
     // This function sets the main delegates and configure de main view components
@@ -57,16 +59,21 @@ class MainViewController: UIViewController {
     
     // Search Button tap
     @IBAction func searchButtonTapped(_ sender: Any) {
-        if let searchTerm = textfield_search_bar.text, searchTerm.count > 2 {
-            
-            self.showSpinner(onView: self.view)
-            searchArtists(searchTerm: searchTerm)
+        if connectionAvailable {
+            if let searchTerm = textfield_search_bar.text, searchTerm.count > 2 {
+                
+                self.showSpinner(onView: self.view)
+                searchArtists(searchTerm: searchTerm)
+            } else {
+                
+                presentError(description: NSLocalizedString("error_three_characters_required", comment: "Error description"))
+            }
         } else {
-            
-            presentError(description: NSLocalizedString("error_three_characters_required", comment: "Error description"))
+            presentError(description: NSLocalizedString("error_search_without_connection_text", comment: "Error description"))
         }
     }
     
+    // Func to load data from data disk
     func loadData() {
         do {
             let data = try filesManager.read(fileNamed: "artistList.txt")
@@ -76,6 +83,7 @@ class MainViewController: UIViewController {
             self.removeSpinner()
         } catch {
             debugPrint("Error loading internal data")
+            self.removeSpinner()
         }
     }
 }
@@ -145,8 +153,11 @@ extension MainViewController {
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             
             if (error != nil) {
-                self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
-                self.removeSpinner()
+                DispatchQueue.main.async {
+                    self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                    self.connectionAvailable = false
+                    self.loadData()
+                }
             } else {
                 if let data = data {
                     if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
@@ -154,14 +165,16 @@ extension MainViewController {
                         self.removeSpinner()
                     } else {
                         DispatchQueue.main.async {
-                            self.removeSpinner()
-                            self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                            self.connectionAvailable = false
+                            self.loadData()
+                            self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
                         }
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.removeSpinner()
-                        self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                        self.connectionAvailable = false
+                        self.loadData()
+                        self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
                     }
                 }
             }
@@ -191,8 +204,9 @@ extension MainViewController {
             
             if error != nil {
                 DispatchQueue.main.async {
-                    self.removeSpinner()
-                    self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                    self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                    self.connectionAvailable = false
+                    self.loadData()
                 }
             } else {
                 if let data = data {
