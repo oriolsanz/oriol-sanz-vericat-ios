@@ -17,6 +17,8 @@ class MainViewController: UIViewController {
     
     var spotifyToken: String = ""
     
+    let filesManager: FilesManager = FilesManager.init()
+    
     // The list of all searched artists
     var artistsTableList: [ArtistModel] = []
     
@@ -31,6 +33,9 @@ class MainViewController: UIViewController {
     
     // This function sets the main delegates and configure de main view components
     func configureComponentes() {
+        
+        artistsTableList.removeAll()
+        tableview_artists_list.reloadData()
         
         textfield_search_bar.autocorrectionType = .no
         tableview_artists_list.delegate = self
@@ -59,6 +64,18 @@ class MainViewController: UIViewController {
         } else {
             
             presentError(description: NSLocalizedString("error_three_characters_required", comment: "Error description"))
+        }
+    }
+    
+    func loadData() {
+        do {
+            let data = try filesManager.read(fileNamed: "artistList.txt")
+            let decoder = JSONDecoder()
+            artistsTableList = try! decoder.decode([ArtistModel].self, from: data)
+            tableview_artists_list.reloadData()
+            self.removeSpinner()
+        } catch {
+            debugPrint("Error loading internal data")
         }
     }
 }
@@ -224,6 +241,15 @@ extension MainViewController {
                                 DispatchQueue.main.async {
                                     self.removeSpinner()
                                     self.tableview_artists_list.reloadData()
+                                    
+                                    let encoder = JSONEncoder()
+                                    encoder.outputFormatting = .prettyPrinted
+                                    let data = try! encoder.encode(self.artistsTableList)
+                                    do {
+                                        try self.filesManager.save(fileNamed: "artistList.txt", data: data)
+                                    } catch {
+                                        
+                                    }
                                 }
                             }
                         } else {
