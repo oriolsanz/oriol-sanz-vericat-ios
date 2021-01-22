@@ -147,6 +147,20 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         performSegue(withIdentifier: "detailSegue", sender: self)
         tableview_artists_list.deselectRow(at: indexPath, animated: true)
     }
+    
+    // Scroll for parallax effect
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let offSetY = self.tableview_artists_list.contentOffset.y
+        for cell in self.tableview_artists_list.visibleCells as! [ArtistTableViewCell] {
+            
+            let x = cell.artistImage.frame.origin.x
+            let w = cell.artistImage.bounds.width
+            let h = cell.artistImage.bounds.height
+            let y = ((offSetY - cell.frame.origin.y) / h) * 5
+            cell.artistImage.frame = CGRect.init(x: x, y: y, width: w, height: h)
+        }
+    }
 }
 
 // Extension for Services
