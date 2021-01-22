@@ -14,6 +14,8 @@ var vSpinner : UIView?
 class Utils {
     static let spotifyClientID: String = "ba7dfd34f3304c58b58ac4b2f0fdc807"
     static let spotifySecretID: String = "1d33ec4876454d2e817313146fbae994"
+    static let savedDataFileName: String = "artistList.txt"
+    static let filesManager: FilesManager = FilesManager.init()
     
     // This function downloads an image
     static func downloadImage(from url: String) -> Data? {

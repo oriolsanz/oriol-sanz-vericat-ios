@@ -53,6 +53,7 @@ class MainViewController: UIViewController {
             if let index = tableview_artists_list.indexPathForSelectedRow?.row {
                 destination.artist = artistsTableList[index]
                 destination.spotifyToken = spotifyToken
+                destination.artistsList = artistsTableList
             }
         }
     }
@@ -72,18 +73,34 @@ class MainViewController: UIViewController {
             presentError(description: NSLocalizedString("error_search_without_connection_text", comment: "Error description"))
         }
     }
+}
+
+// Extension for save and load data
+extension MainViewController {
     
-    // Func to load data from data disk
-    func loadData() {
+    // Func to save data to disk
+    func saveData() {
+
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let data = try! encoder.encode(self.artistsTableList)
         do {
-            let data = try filesManager.read(fileNamed: "artistList.txt")
+            try Utils.filesManager.save(fileNamed: Utils.savedDataFileName, data: data)
+        } catch {
+            debugPrint("Error saving data")
+        }
+    }
+    
+    // Func to load data from disk
+    func loadArtistsData() {
+        do {
+            let data = try Utils.filesManager.read(fileNamed: Utils.savedDataFileName)
             let decoder = JSONDecoder()
-            artistsTableList = try! decoder.decode([ArtistModel].self, from: data)
-            tableview_artists_list.reloadData()
+            self.artistsTableList = try! decoder.decode([ArtistModel].self, from: data)
+            self.tableview_artists_list.reloadData()
             self.removeSpinner()
         } catch {
             debugPrint("Error loading internal data")
-            self.removeSpinner()
         }
     }
 }
@@ -156,7 +173,7 @@ extension MainViewController {
                 DispatchQueue.main.async {
                     self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
                     self.connectionAvailable = false
-                    self.loadData()
+                    self.loadArtistsData()
                 }
             } else {
                 if let data = data {
@@ -166,15 +183,15 @@ extension MainViewController {
                     } else {
                         DispatchQueue.main.async {
                             self.connectionAvailable = false
-                            self.loadData()
                             self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                            self.loadArtistsData()
                         }
                     }
                 } else {
                     DispatchQueue.main.async {
                         self.connectionAvailable = false
-                        self.loadData()
                         self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                        self.loadArtistsData()
                     }
                 }
             }
@@ -206,7 +223,7 @@ extension MainViewController {
                 DispatchQueue.main.async {
                     self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
                     self.connectionAvailable = false
-                    self.loadData()
+                    self.loadArtistsData()
                 }
             } else {
                 if let data = data {
@@ -219,7 +236,7 @@ extension MainViewController {
                             if let artists = items["items"] {
                                 for artist in (artists as! NSArray as! [Any]) {
                                     
-                                    var model = ArtistModel.init()
+                                    let model = ArtistModel.init()
                                     
                                     if let id = (artist as? [String: Any])?["id"] as? String {
                                         model.id = id
@@ -253,17 +270,9 @@ extension MainViewController {
                                     self.artistsTableList.append(model)
                                 }
                                 DispatchQueue.main.async {
-                                    self.removeSpinner()
+                                    self.saveData()
                                     self.tableview_artists_list.reloadData()
-                                    
-                                    let encoder = JSONEncoder()
-                                    encoder.outputFormatting = .prettyPrinted
-                                    let data = try! encoder.encode(self.artistsTableList)
-                                    do {
-                                        try self.filesManager.save(fileNamed: "artistList.txt", data: data)
-                                    } catch {
-                                        
-                                    }
+                                    self.removeSpinner()
                                 }
                             }
                         } else {

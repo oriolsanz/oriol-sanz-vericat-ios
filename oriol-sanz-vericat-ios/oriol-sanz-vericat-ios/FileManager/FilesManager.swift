@@ -17,9 +17,11 @@ class FilesManager {
         case readingFailed
     }
     let fileManager: FileManager
+    let folderName: String
     
     init(fileManager: FileManager = .default) {
         self.fileManager = fileManager
+        self.folderName = "AppDataFolder"
         createDirectoryIfNotExists()
     }
     
@@ -27,7 +29,7 @@ class FilesManager {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentsDirectory = paths[0]
         let docURL = URL(string: documentsDirectory)!
-        let dataPath = docURL.appendingPathComponent("AppDataFolder")
+        let dataPath = docURL.appendingPathComponent(folderName)
         if !FileManager.default.fileExists(atPath: dataPath.absoluteString) {
             do {
                 try FileManager.default.createDirectory(atPath: dataPath.absoluteString, withIntermediateDirectories: false, attributes: nil)
@@ -54,7 +56,7 @@ class FilesManager {
         guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
             return nil
         }
-        return url.appendingPathComponent("AppDataFolder").appendingPathComponent(fileName)
+        return url.appendingPathComponent(folderName).appendingPathComponent(fileName)
     }
     
     func read(fileNamed: String) throws -> Data {

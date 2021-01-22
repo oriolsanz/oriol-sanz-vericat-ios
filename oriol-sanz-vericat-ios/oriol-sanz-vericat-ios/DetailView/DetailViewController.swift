@@ -29,6 +29,8 @@ class DetailViewController: UIViewController {
     var fromDate: Date?
     var toDate: Date?
     
+    var artistsList: [ArtistModel] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -223,6 +225,48 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
 }
 
+// Extension for save albums on disk
+extension DetailViewController {
+    
+    // Func to save the albums
+    func saveAlbums() {
+        
+        var index = 0
+        for artist in artistsList {
+            if artist.id == self.artist?.id {
+                artistsList[index] = artist
+            }
+            index += 1
+        }
+        
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let data = try! encoder.encode(artistsList)
+        do {
+            try Utils.filesManager.save(fileNamed: Utils.savedDataFileName, data: data)
+        } catch {
+            debugPrint("Error saving albums")
+        }
+        self.removeSpinner()
+    }
+    
+    // Func to load saved Albums
+    func loadSavedAlbums() {
+        
+        for artistModel in artistsList {
+            if artistModel.id == artist?.id {
+                for album in artistModel.albums {
+                    
+                    shownAlbums.append(album)
+                }
+                self.albumsCollectionView.reloadData()
+                self.removeSpinner()
+                break
+            }
+        }
+    }
+}
+
 extension DetailViewController {
     
     // Method to download the Albums
@@ -247,8 +291,8 @@ extension DetailViewController {
             
             if error != nil {
                 DispatchQueue.main.async {
-                    self.removeSpinner()
                     self.presentError(description: NSLocalizedString("error_default_text", comment: "Error description"))
+                    self.loadSavedAlbums()
                 }
             } else {
                 if let data = data {
@@ -261,7 +305,7 @@ extension DetailViewController {
                         if let albums = jsonResponse["items"] {
                             for album in (albums as! NSArray as! [Any]) {
                                 
-                                var model = ArtistAlbum.init()
+                                let model = ArtistAlbum.init()
                                 
                                 if let id = (album as? [String: Any])?["id"] as? String {
                                     model.id = id
@@ -294,7 +338,7 @@ extension DetailViewController {
                             }
                             DispatchQueue.main.async {
                                 self.albumsCollectionView.reloadData()
-                                self.removeSpinner()
+                                self.saveAlbums()
                             }
                         }
                     } else {
@@ -310,6 +354,7 @@ extension DetailViewController {
                     }
                 }
             }
+            self.removeSpinner()
         })
         dataTask.resume()
     }
