@@ -40,8 +40,12 @@ class MainViewController: UIViewController {
         tableview_artists_list.reloadData()
         
         textfield_search_bar.autocorrectionType = .no
+        
         tableview_artists_list.delegate = self
         tableview_artists_list.dataSource = self
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
+        gesture.minimumPressDuration = 1.0      // 1 second press
+        tableview_artists_list.addGestureRecognizer(gesture)
         
         searchButton.setTitle(NSLocalizedString("main_button_search", comment: "The search button title"), for: .normal)
     }
@@ -159,6 +163,21 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             let h = cell.artistImage.bounds.height
             let y = ((offSetY - cell.frame.origin.y) / h) * 5
             cell.artistImage.frame = CGRect.init(x: x, y: y, width: w, height: h)
+        }
+    }
+    
+    // Share on social media when long click
+    @objc func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer) {
+        
+        let touchPoint = gesture.location(in: self.tableview_artists_list)
+        if let indexPath = tableview_artists_list.indexPathForRow(at: touchPoint) {
+            
+            let cell = tableview_artists_list.cellForRow(at: indexPath) as? ArtistTableViewCell
+            let imageToShare = [cell?.artistImage]
+            
+            let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+            
+            self.present(activityViewController, animated: true, completion: nil)
         }
     }
 }
