@@ -13,5 +13,9 @@ class ArtistTableViewCell: UITableViewCell {
     
     @IBOutlet weak var artistImage: UIImageView!
     @IBOutlet weak var artistName: UILabel!
+    @IBOutlet weak var imgWrapper: UIView!
     
+    override func awakeFromNib() {
+        self.imgWrapper.clipsToBounds = true
+    }
 }

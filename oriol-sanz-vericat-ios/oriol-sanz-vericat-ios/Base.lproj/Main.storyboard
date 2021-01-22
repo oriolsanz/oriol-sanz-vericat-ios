@@ -37,21 +37,34 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ArtistCell" id="IqT-kZ-u7n" customClass="ArtistTableViewCell" customModule="oriol_sanz_vericat_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="384" height="100.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="384" height="120.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IqT-kZ-u7n" id="Jbw-tg-Hdh">
-                                            <rect key="frame" x="0.0" y="0.0" width="384" height="100.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="384" height="120.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MRA-AB-8IT">
-                                                    <rect key="frame" x="10" y="10" width="80" height="80.5"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ze3-h0-PtU">
+                                                    <rect key="frame" x="20" y="20" width="80" height="80.5"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MRA-AB-8IT">
+                                                            <rect key="frame" x="0.0" y="0.0" width="80" height="80.5"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="80" id="ZGk-a0-vNA"/>
+                                                                <constraint firstAttribute="height" constant="80" id="lQL-k2-ueW"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="ZGk-a0-vNA"/>
-                                                        <constraint firstAttribute="height" constant="80" id="lQL-k2-ueW"/>
+                                                        <constraint firstAttribute="height" constant="80" id="VRq-U4-2fm"/>
+                                                        <constraint firstAttribute="width" constant="80" id="bex-0l-0iU"/>
+                                                        <constraint firstItem="MRA-AB-8IT" firstAttribute="leading" secondItem="ze3-h0-PtU" secondAttribute="leading" id="dZb-22-I0A"/>
+                                                        <constraint firstItem="MRA-AB-8IT" firstAttribute="top" secondItem="ze3-h0-PtU" secondAttribute="top" id="fe7-5n-b19"/>
+                                                        <constraint firstAttribute="bottom" secondItem="MRA-AB-8IT" secondAttribute="bottom" id="qw2-CM-f3G"/>
                                                     </constraints>
-                                                </imageView>
+                                                </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wnA-Gk-n5S">
-                                                    <rect key="frame" x="105" y="40" width="244" height="21"/>
+                                                    <rect key="frame" x="110" y="50" width="239" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -59,16 +72,17 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="wnA-Gk-n5S" secondAttribute="trailing" constant="15" id="1Ta-Za-gjk"/>
-                                                <constraint firstItem="wnA-Gk-n5S" firstAttribute="leading" secondItem="MRA-AB-8IT" secondAttribute="trailing" constant="15" id="3gq-L0-jbk"/>
                                                 <constraint firstItem="wnA-Gk-n5S" firstAttribute="centerY" secondItem="Jbw-tg-Hdh" secondAttribute="centerY" id="4Hc-dP-2aL"/>
-                                                <constraint firstItem="MRA-AB-8IT" firstAttribute="top" secondItem="Jbw-tg-Hdh" secondAttribute="top" constant="10" id="JUy-xU-MeJ"/>
-                                                <constraint firstAttribute="bottom" secondItem="MRA-AB-8IT" secondAttribute="bottom" constant="10" id="tEs-39-TjQ"/>
-                                                <constraint firstItem="MRA-AB-8IT" firstAttribute="leading" secondItem="Jbw-tg-Hdh" secondAttribute="leading" constant="10" id="z06-cB-aWj"/>
+                                                <constraint firstAttribute="bottom" secondItem="ze3-h0-PtU" secondAttribute="bottom" constant="20" id="BpV-8J-lTP"/>
+                                                <constraint firstItem="wnA-Gk-n5S" firstAttribute="leading" secondItem="ze3-h0-PtU" secondAttribute="trailing" constant="10" id="FI2-hk-Tvh"/>
+                                                <constraint firstItem="ze3-h0-PtU" firstAttribute="leading" secondItem="Jbw-tg-Hdh" secondAttribute="leading" constant="20" id="UAZ-Q1-MVb"/>
+                                                <constraint firstItem="ze3-h0-PtU" firstAttribute="top" secondItem="Jbw-tg-Hdh" secondAttribute="top" constant="20" id="lIp-Dx-mon"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="artistImage" destination="MRA-AB-8IT" id="COT-Z5-V5T"/>
                                             <outlet property="artistName" destination="wnA-Gk-n5S" id="csz-b1-TEB"/>
+                                            <outlet property="imgWrapper" destination="ze3-h0-PtU" id="4vm-gj-ktx"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
