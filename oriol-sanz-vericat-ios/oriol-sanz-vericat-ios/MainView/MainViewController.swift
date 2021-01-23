@@ -103,7 +103,6 @@ extension MainViewController {
             let decoder = JSONDecoder()
             self.artistsTableList = try! decoder.decode([ArtistModel].self, from: data)
             self.tableview_artists_list.reloadData()
-            self.removeSpinner()
         } catch {
             debugPrint("Error loading internal data")
         }
@@ -113,16 +112,25 @@ extension MainViewController {
 // Extension to present error
 extension MainViewController {
     
-    func presentError(description: String) {
+    func presentError(description: String, showRetryButton: Bool = false) {
         let alert = UIAlertController(title: NSLocalizedString("error_title", comment: "Error title"),
                                           message: description,
                                           preferredStyle: .alert)
 
-            alert.addAction(UIAlertAction(title: NSLocalizedString("error_ok", comment: "Error ok button"),
+        alert.addAction(UIAlertAction(title: NSLocalizedString("error_ok", comment: "Error ok button"),
+                                      style: .default,
+                                      handler: nil))
+    
+        if showRetryButton {
+            alert.addAction(UIAlertAction(title: NSLocalizedString("error_retry", comment: "Error rety button"),
                                           style: .default,
-                                          handler: nil))
+                                          handler: { _ in
+                                          
+                                            self.spotifyConnect()
+            }))
+        }
 
-            self.present(alert, animated: true)
+        self.present(alert, animated: true)
     }
 }
 
@@ -205,26 +213,28 @@ extension MainViewController {
             
             if (error != nil) {
                 DispatchQueue.main.async {
-                    self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                    self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"), showRetryButton: true)
                     self.connectionAvailable = false
                     self.loadArtistsData()
+                    self.removeSpinner()
                 }
             } else {
                 if let data = data {
                     if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                         self.spotifyToken = jsonResponse["access_token"] as? String ?? ""
+                        self.connectionAvailable = true
                         self.removeSpinner()
                     } else {
                         DispatchQueue.main.async {
                             self.connectionAvailable = false
-                            self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                            self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"), showRetryButton: true)
                             self.loadArtistsData()
                         }
                     }
                 } else {
                     DispatchQueue.main.async {
                         self.connectionAvailable = false
-                        self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
+                        self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"), showRetryButton: true)
                         self.loadArtistsData()
                     }
                 }
@@ -258,6 +268,7 @@ extension MainViewController {
                     self.presentError(description: NSLocalizedString("error_load_local_text", comment: "Error description"))
                     self.connectionAvailable = false
                     self.loadArtistsData()
+                    self.removeSpinner()
                 }
             } else {
                 if let data = data {
