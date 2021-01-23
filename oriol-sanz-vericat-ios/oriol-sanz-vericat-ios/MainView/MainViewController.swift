@@ -43,6 +43,7 @@ class MainViewController: UIViewController {
         
         tableview_artists_list.delegate = self
         tableview_artists_list.dataSource = self
+        
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
         gesture.minimumPressDuration = 1.0      // 1 second press
         tableview_artists_list.addGestureRecognizer(gesture)
