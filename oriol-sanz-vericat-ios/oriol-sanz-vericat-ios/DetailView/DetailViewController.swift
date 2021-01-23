@@ -19,6 +19,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var filterByDateButton: UIButton!
     @IBOutlet weak var filterFromLabel: UILabel!
     @IBOutlet weak var filterToLabel: UILabel!
+    @IBOutlet weak var filterByTextTextField: UITextField!
     
     var artist: ArtistModel?
     var shownAlbums: [ArtistAlbum] = []
@@ -30,6 +31,8 @@ class DetailViewController: UIViewController {
     var toDate: Date?
     
     var artistsList: [ArtistModel] = []
+    
+    var searchTerm: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +66,10 @@ class DetailViewController: UIViewController {
         filterByDateButton.titleLabel?.text = NSLocalizedString("detail_filter_by_date", comment: "Filter title")
         filterFromLabel.text = NSLocalizedString("detail_filter_by_date_from", comment: "Filter from")
         filterToLabel.text = NSLocalizedString("detail_filter_by_date_to", comment: "Filter to")
+        
+        filterByTextTextField.delegate = self
+        filterByTextTextField.autocorrectionType = .no
+        filterByTextTextField.placeholder = NSLocalizedString("detail_filter_by_title", comment: "Filter album by title")
     }
     
     // Function to configure the model
@@ -262,6 +269,65 @@ extension DetailViewController {
                 self.albumsCollectionView.reloadData()
                 self.removeSpinner()
                 break
+            }
+        }
+    }
+}
+
+extension DetailViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        filterByText(char: string)
+        return true
+    }
+    
+    func filterByText(char: String) {
+        
+        if char == "" {
+            
+            searchTerm.removeLast()
+        } else {
+            
+            searchTerm.append(char)
+        }
+        
+        if (searchTerm.count > 2) {
+            
+            var tempAlbums: [ArtistAlbum] = []
+            if let albums = artist?.albums {
+                for album in albums {
+                    
+                    let albumName = album.name.lowercased()
+                    if albumName.contains(searchTerm) {
+                        
+                        tempAlbums.append(album)
+                    }
+                }
+                shownAlbums.removeAll()
+                
+                for album in tempAlbums {
+                    
+                    shownAlbums.append(album)
+                }
+                albumsCollectionView.reloadData()
+            }
+        } else if searchTerm.count == 2 {
+            // If there are less than 3 characters we reload all the albums
+            shownAlbums.removeAll()
+            var tempAlbums: [ArtistAlbum] = []
+            if let albums = artist?.albums {
+                for album in albums {
+                        
+                    tempAlbums.append(album)
+                }
+                shownAlbums.removeAll()
+                
+                for album in tempAlbums {
+                    
+                    shownAlbums.append(album)
+                }
+                albumsCollectionView.reloadData()
             }
         }
     }

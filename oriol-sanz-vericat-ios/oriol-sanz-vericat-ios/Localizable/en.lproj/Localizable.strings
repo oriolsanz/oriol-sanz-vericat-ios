@@ -14,6 +14,7 @@
 "detail_filter_by_date" = "Filter by date";
 "detail_filter_by_date_from" = "From:";
 "detail_filter_by_date_to" = "To:";
+"detail_filter_by_title" = "Filter albums by title";
 
 // DetailView PickerView
 "picker_view_accept" = "Accept";
