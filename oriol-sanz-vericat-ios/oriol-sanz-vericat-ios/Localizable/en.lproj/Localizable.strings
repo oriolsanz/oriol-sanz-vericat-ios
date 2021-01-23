@@ -23,6 +23,7 @@
 // Errors
 "error_title" = "An error has occurred";
 "error_ok" = "OK";
+"error_retry" = "Retry";
 
 "error_three_characters_required" = "At least 3 characters are required";
 "error_default_text" = "Unexpected error has occurred";

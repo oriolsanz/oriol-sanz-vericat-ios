@@ -23,6 +23,7 @@
 // Errors
 "error_title" = "Hi ha hagut un error";
 "error_ok" = "D'acord";
+"error_retry" = "Reintentar";
 
 "error_three_characters_required" = "Es requereixen al menys 3 caràcters";
 "error_default_text" = "S'ha produït un error inesperat";
