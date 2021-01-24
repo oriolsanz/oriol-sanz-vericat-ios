@@ -128,13 +128,13 @@ extension DetailViewController {
             
             if sender.scale > 1 {   // Zoom in
                 
-                if scale < 3 {
+                if scale < 3.1 {
                     
                     scale = scale + 1
                 }
             } else {                // Zoom out
                 
-                if scale > 0 {
+                if scale > 0.1 {
                 
                     scale = scale - 1
                 }
