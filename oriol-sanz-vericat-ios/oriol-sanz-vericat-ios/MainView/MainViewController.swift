@@ -68,7 +68,6 @@ class MainViewController: UIViewController {
         if connectionAvailable {
             if let searchTerm = textfield_search_bar.text, searchTerm.count > 2 {
                 
-                self.showSpinner(onView: self.view)
                 searchArtists(searchTerm: searchTerm)
             } else {
                 
@@ -260,9 +259,21 @@ extension MainViewController {
     }
     
     // This function search the artists by name
-    func searchArtists(searchTerm: String) {
+    func searchArtists(searchTerm: String, keyOffset: String = "", isRecall: Bool = false) {
         
-        artistsTableList.removeAll()
+        if !isRecall {
+            
+            showSpinner(onView: self.view)
+            
+            artistsTableList.removeAll()
+        }
+        
+        var offsetParam = ""
+        
+        if keyOffset != "" {
+            
+            offsetParam = "&offset=\(keyOffset)"
+        }
         
         let formattedString = searchTerm.replacingOccurrences(of: " ", with: "+")
         
@@ -271,7 +282,7 @@ extension MainViewController {
             "authorization": "Bearer \(spotifyToken)"
         ]
         
-        let request = NSMutableURLRequest(url: NSURL(string: "https://api.spotify.com/v1/search?type=artist&q=\(formattedString)")! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
+        let request = NSMutableURLRequest(url: NSURL(string: "https://api.spotify.com/v1/search?type=artist&q=\(formattedString)\(offsetParam)")! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
         
@@ -293,7 +304,12 @@ extension MainViewController {
                         
                         // Here we navigate through JSON to locate the fields we want to use
                         
+                        var nextParam: String = ""
                         if let items = jsonResponse["artists"] as? [String: Any] {
+                            if let next = items["next"] as? String {
+                            
+                                nextParam = next
+                            }
                             if let artists = items["items"] {
                                 for artist in (artists as! NSArray as! [Any]) {
                                     
@@ -330,10 +346,37 @@ extension MainViewController {
                                     
                                     self.artistsTableList.append(model)
                                 }
-                                DispatchQueue.main.async {
-                                    self.saveData()
-                                    self.tableview_artists_list.reloadData()
-                                    self.removeSpinner()
+                                
+                                // If has next, recall | max to 100
+                                if nextParam != "" {
+                                    
+                                    if let offset = Utils.getQueryStringParameter(url: nextParam, param: "offset") {
+                                        
+                                        if let intOffset = Int(offset), intOffset < 100 {
+                                            
+                                            self.searchArtists(searchTerm: searchTerm, keyOffset: offset, isRecall: true)
+                                        } else {
+                                            
+                                            DispatchQueue.main.async {
+                                                self.saveData()
+                                                self.tableview_artists_list.reloadData()
+                                                self.removeSpinner()
+                                            }
+                                        }
+                                    } else {
+                                        
+                                        DispatchQueue.main.async {
+                                            self.saveData()
+                                            self.tableview_artists_list.reloadData()
+                                            self.removeSpinner()
+                                        }
+                                    }
+                                } else {
+                                    DispatchQueue.main.async {
+                                        self.saveData()
+                                        self.tableview_artists_list.reloadData()
+                                        self.removeSpinner()
+                                    }
                                 }
                             }
                         } else {
