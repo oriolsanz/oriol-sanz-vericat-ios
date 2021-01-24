@@ -15,7 +15,21 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_icon" translatesAutoresizingMaskIntoConstraints="NO" id="IRh-j5-cok">
+                                <rect key="frame" x="0.0" y="298" width="414" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="e7l-Pc-8Hp"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="IRh-j5-cok" secondAttribute="trailing" id="Jhh-nX-ueB"/>
+                            <constraint firstItem="IRh-j5-cok" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="ba0-Dx-oXy"/>
+                            <constraint firstItem="IRh-j5-cok" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qwb-iW-IXN"/>
+                            <constraint firstItem="IRh-j5-cok" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="zf3-gz-45Q"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -24,4 +38,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="splash_icon" width="120" height="120"/>
+    </resources>
 </document>
