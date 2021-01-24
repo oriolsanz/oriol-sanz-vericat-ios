@@ -225,7 +225,17 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         let album = shownAlbums[indexPath.row]
         cell.albumTitle.text = album.name
-        cell.albumImage.image = Utils.getImage(from: album.imageUrl)
+        
+        let size = cell.albumImage.bounds.size
+        let scale = CGFloat(1.0)
+        if let url = URL(string: album.imageUrl) {
+            DispatchQueue.global(qos: .userInitiated).async {
+                let image = UIImage(thumbnailOfURL: url, size: size, scale: scale)!
+                DispatchQueue.main.async { [weak self] in
+                    cell.albumImage.image = image
+                }
+            }
+        }
         
         cell.layoutIfNeeded()
         return cell

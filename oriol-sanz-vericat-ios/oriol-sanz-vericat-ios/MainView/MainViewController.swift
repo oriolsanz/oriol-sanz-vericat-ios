@@ -142,7 +142,23 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         let artist = artistsTableList[indexPath.row]
         cell.artistName.text = artist.name
-        cell.artistImage.image = Utils.getImage(from: artist.imageUrl)
+        
+        if artist.imageUrl != "" {
+            
+            let size = cell.artistImage.bounds.size
+            let scale = traitCollection.displayScale
+            if let url = URL(string: artist.imageUrl) {
+                DispatchQueue.global(qos: .userInitiated).async {
+                    let image = UIImage(thumbnailOfURL: url, size: size, scale: scale)!
+                    DispatchQueue.main.async { [weak self] in
+                        cell.artistImage.image = image
+                    }
+                }
+            }
+        } else {
+            
+            cell.artistImage.image = Utils.getImage(from: artist.imageUrl)
+        }
         
         return cell
     }
