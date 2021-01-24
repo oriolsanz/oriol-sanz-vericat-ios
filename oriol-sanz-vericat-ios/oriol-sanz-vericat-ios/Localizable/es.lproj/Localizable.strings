@@ -1,0 +1,34 @@
+/* 
+  Localizable.strings
+  oriol-sanz-vericat-ios
+
+  Created by Oriol Sanz Vericat on 19/01/2021.
+  Copyright © 2021 Oriol Sanz Vericat. All rights reserved.
+*/
+
+// Main View
+"main_button_search" = "Buscar";
+
+// Detail View
+"detail_followers" = "%@ seguidores";
+"detail_filter_by_date" = "Filtrar por fecha";
+"detail_filter_by_date_from" = "Desde:";
+"detail_filter_by_date_to" = "Hasta:";
+"detail_filter_by_title" = "Filtrar álbumes por título";
+
+// DetailView PickerView
+"picker_view_accept" = "Aceptar";
+"picker_view_cancel" = "Cancelar";
+
+// Errors
+"error_title" = "Ha ocurrido un error";
+"error_ok" = "Aceptar";
+"error_retry" = "Reintentar";
+
+"error_three_characters_required" = "Se requieren al menos 3 caracteres";
+"error_default_text" = "Se ha producido un error inesperado";
+"error_load_local_text" = "No se ha podido conectar, se están usando datos guardados";
+"error_search_without_connection_text" = "No se buscar sin conexión";
+"error_dates_needed" = "Debe rellenar las 2 fechas para filtrar";
+"error_back_to_the_future" = "No se puede buscar desde una fecha posterior a la fecha de destino";
+"error_no_albums" = "No hay álbumes para filtrar";

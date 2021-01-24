@@ -9,12 +9,20 @@
 /* Begin PBXBuildFile section */
 		F8A4705F25B5C00E00CC2667 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A4705E25B5C00E00CC2667 /* AppDelegate.swift */; };
 		F8A4706125B5C00E00CC2667 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A4706025B5C00E00CC2667 /* SceneDelegate.swift */; };
-		F8A4706325B5C00E00CC2667 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A4706225B5C00E00CC2667 /* ViewController.swift */; };
+		F8A4706325B5C00E00CC2667 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A4706225B5C00E00CC2667 /* MainViewController.swift */; };
 		F8A4706625B5C00E00CC2667 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8A4706425B5C00E00CC2667 /* Main.storyboard */; };
 		F8A4706825B5C01200CC2667 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8A4706725B5C01200CC2667 /* Assets.xcassets */; };
 		F8A4706B25B5C01200CC2667 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8A4706925B5C01200CC2667 /* LaunchScreen.storyboard */; };
 		F8A4707625B5C01200CC2667 /* oriol_sanz_vericat_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A4707525B5C01200CC2667 /* oriol_sanz_vericat_iosTests.swift */; };
 		F8A4708125B5C01200CC2667 /* oriol_sanz_vericat_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A4708025B5C01200CC2667 /* oriol_sanz_vericat_iosUITests.swift */; };
+		F8B4EF1625B6DBE1001304AF /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF1525B6DBE1001304AF /* Utils.swift */; };
+		F8B4EF1B25B714AF001304AF /* ArtistModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF1A25B714AF001304AF /* ArtistModel.swift */; };
+		F8B4EF1D25B71558001304AF /* ArtistAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF1C25B71558001304AF /* ArtistAlbum.swift */; };
+		F8B4EF2125B75298001304AF /* ArtistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF2025B75298001304AF /* ArtistTableViewCell.swift */; };
+		F8B4EF2825B75F35001304AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F8B4EF2A25B75F35001304AF /* Localizable.strings */; };
+		F8B4EF3A25B7671F001304AF /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF3925B7671F001304AF /* DetailViewController.swift */; };
+		F8B4EF3C25B8666A001304AF /* AlbumCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF3B25B8666A001304AF /* AlbumCollectionViewCell.swift */; };
+		F8B4EF5C25B9D5A5001304AF /* FilesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B4EF5B25B9D5A5001304AF /* FilesManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +46,7 @@
 		F8A4705B25B5C00E00CC2667 /* oriol-sanz-vericat-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "oriol-sanz-vericat-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8A4705E25B5C00E00CC2667 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F8A4706025B5C00E00CC2667 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F8A4706225B5C00E00CC2667 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F8A4706225B5C00E00CC2667 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F8A4706525B5C00E00CC2667 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F8A4706725B5C01200CC2667 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8A4706A25B5C01200CC2667 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +57,16 @@
 		F8A4707C25B5C01200CC2667 /* oriol-sanz-vericat-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "oriol-sanz-vericat-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8A4708025B5C01200CC2667 /* oriol_sanz_vericat_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oriol_sanz_vericat_iosUITests.swift; sourceTree = "<group>"; };
 		F8A4708225B5C01200CC2667 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8B4EF1525B6DBE1001304AF /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		F8B4EF1A25B714AF001304AF /* ArtistModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistModel.swift; sourceTree = "<group>"; };
+		F8B4EF1C25B71558001304AF /* ArtistAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistAlbum.swift; sourceTree = "<group>"; };
+		F8B4EF2025B75298001304AF /* ArtistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTableViewCell.swift; sourceTree = "<group>"; };
+		F8B4EF2925B75F35001304AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F8B4EF3225B75F91001304AF /* ca-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ca-ES"; path = "ca-ES.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F8B4EF3725B76007001304AF /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F8B4EF3925B7671F001304AF /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		F8B4EF3B25B8666A001304AF /* AlbumCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewCell.swift; sourceTree = "<group>"; };
+		F8B4EF5B25B9D5A5001304AF /* FilesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,9 +117,14 @@
 		F8A4705D25B5C00E00CC2667 /* oriol-sanz-vericat-ios */ = {
 			isa = PBXGroup;
 			children = (
+				F8B4EF5A25B9D598001304AF /* FileManager */,
+				F8B4EF2325B75EBB001304AF /* Localizable */,
+				F8B4EF1925B7149F001304AF /* Models */,
+				F8B4EF1425B6DBB3001304AF /* Utils */,
+				F8B4EF3825B766F7001304AF /* DetailView */,
+				F8A4708E25B5C6B600CC2667 /* MainView */,
 				F8A4705E25B5C00E00CC2667 /* AppDelegate.swift */,
 				F8A4706025B5C00E00CC2667 /* SceneDelegate.swift */,
-				F8A4706225B5C00E00CC2667 /* ViewController.swift */,
 				F8A4706425B5C00E00CC2667 /* Main.storyboard */,
 				F8A4706725B5C01200CC2667 /* Assets.xcassets */,
 				F8A4706925B5C01200CC2667 /* LaunchScreen.storyboard */,
@@ -126,6 +149,57 @@
 				F8A4708225B5C01200CC2667 /* Info.plist */,
 			);
 			path = "oriol-sanz-vericat-iosUITests";
+			sourceTree = "<group>";
+		};
+		F8A4708E25B5C6B600CC2667 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				F8A4706225B5C00E00CC2667 /* MainViewController.swift */,
+				F8B4EF2025B75298001304AF /* ArtistTableViewCell.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		F8B4EF1425B6DBB3001304AF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F8B4EF1525B6DBE1001304AF /* Utils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		F8B4EF1925B7149F001304AF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F8B4EF1A25B714AF001304AF /* ArtistModel.swift */,
+				F8B4EF1C25B71558001304AF /* ArtistAlbum.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F8B4EF2325B75EBB001304AF /* Localizable */ = {
+			isa = PBXGroup;
+			children = (
+				F8B4EF2A25B75F35001304AF /* Localizable.strings */,
+			);
+			path = Localizable;
+			sourceTree = "<group>";
+		};
+		F8B4EF3825B766F7001304AF /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				F8B4EF3925B7671F001304AF /* DetailViewController.swift */,
+				F8B4EF3B25B8666A001304AF /* AlbumCollectionViewCell.swift */,
+			);
+			path = DetailView;
+			sourceTree = "<group>";
+		};
+		F8B4EF5A25B9D598001304AF /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				F8B4EF5B25B9D5A5001304AF /* FilesManager.swift */,
+			);
+			path = FileManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,6 +288,8 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
+				"ca-ES",
 			);
 			mainGroup = F8A4705225B5C00E00CC2667;
 			productRefGroup = F8A4705C25B5C00E00CC2667 /* Products */;
@@ -233,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8A4706B25B5C01200CC2667 /* LaunchScreen.storyboard in Resources */,
+				F8B4EF2825B75F35001304AF /* Localizable.strings in Resources */,
 				F8A4706825B5C01200CC2667 /* Assets.xcassets in Resources */,
 				F8A4706625B5C00E00CC2667 /* Main.storyboard in Resources */,
 			);
@@ -259,9 +336,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8A4706325B5C00E00CC2667 /* ViewController.swift in Sources */,
+				F8B4EF3C25B8666A001304AF /* AlbumCollectionViewCell.swift in Sources */,
+				F8A4706325B5C00E00CC2667 /* MainViewController.swift in Sources */,
+				F8B4EF1D25B71558001304AF /* ArtistAlbum.swift in Sources */,
 				F8A4705F25B5C00E00CC2667 /* AppDelegate.swift in Sources */,
 				F8A4706125B5C00E00CC2667 /* SceneDelegate.swift in Sources */,
+				F8B4EF5C25B9D5A5001304AF /* FilesManager.swift in Sources */,
+				F8B4EF1B25B714AF001304AF /* ArtistModel.swift in Sources */,
+				F8B4EF1625B6DBE1001304AF /* Utils.swift in Sources */,
+				F8B4EF2125B75298001304AF /* ArtistTableViewCell.swift in Sources */,
+				F8B4EF3A25B7671F001304AF /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +397,16 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		F8B4EF2A25B75F35001304AF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F8B4EF2925B75F35001304AF /* en */,
+				F8B4EF3225B75F91001304AF /* ca-ES */,
+				F8B4EF3725B76007001304AF /* es */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -320,6 +414,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -366,7 +461,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -380,6 +475,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -420,7 +516,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -435,7 +531,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SL958GMGDS;
 				INFOPLIST_FILE = "oriol-sanz-vericat-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -443,7 +541,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.goldenspear.oriol-sanz-vericat-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -452,7 +550,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SL958GMGDS;
 				INFOPLIST_FILE = "oriol-sanz-vericat-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -460,7 +560,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.goldenspear.oriol-sanz-vericat-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
