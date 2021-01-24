@@ -34,10 +34,13 @@ class DetailViewController: UIViewController {
     
     var searchTerm: String = ""
     
+    var scale = CGFloat(1.1)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureComponents()
+        configurePinchInOut()
         setupArtistDetails()
         getArtistAlbums(artistID: artist?.id ?? "")
     }
@@ -72,6 +75,13 @@ class DetailViewController: UIViewController {
         filterByTextTextField.placeholder = NSLocalizedString("detail_filter_by_title", comment: "Filter album by title")
     }
     
+    // Function to configure pinch in / out
+    func configurePinchInOut() {
+        
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(sender:)))
+        view.addGestureRecognizer(pinch)
+    }
+    
     // Function to configure the model
     func setupArtistDetails() {
         
@@ -102,6 +112,36 @@ extension DetailViewController {
                                           handler: nil))
 
             self.present(alert, animated: true)
+    }
+}
+
+// Extension to pinch gesture handler
+extension DetailViewController {
+    
+    @objc func handlePinch(sender: UIPinchGestureRecognizer) {
+        
+        guard sender.view != nil else {
+            return
+        }
+        
+        if sender.state == .began || sender.state == .changed {
+            
+            if sender.scale > 1 {   // Zoom in
+                
+                if scale < 3 {
+                    
+                    scale = scale + 1
+                }
+            } else {                // Zoom out
+                
+                if scale > 0 {
+                
+                    scale = scale - 1
+                }
+            }
+            
+            albumsCollectionView.reloadData()
+        }
     }
 }
 
@@ -227,10 +267,9 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.albumTitle.text = album.name
         
         let size = cell.albumImage.bounds.size
-        let scale = CGFloat(1.0)
         if let url = URL(string: album.imageUrl) {
             DispatchQueue.global(qos: .userInitiated).async {
-                let image = UIImage(thumbnailOfURL: url, size: size, scale: scale)!
+                let image = UIImage(thumbnailOfURL: url, size: size, scale: self.scale)!
                 DispatchQueue.main.async { [weak self] in
                     cell.albumImage.image = image
                 }
