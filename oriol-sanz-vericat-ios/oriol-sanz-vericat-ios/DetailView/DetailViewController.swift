@@ -385,10 +385,21 @@ extension DetailViewController: UITextFieldDelegate {
 extension DetailViewController {
     
     // Method to download the Albums
-    func getArtistAlbums(artistID: String) {
+    func getArtistAlbums(artistID: String, keyOffset: String = "", isRecall: Bool = false) {
         
-        showSpinner(onView: self.view)
-        let request = NSMutableURLRequest(url: NSURL(string: "https://api.spotify.com/v1/artists/\(artistID)/albums")! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
+        if !isRecall {
+            
+            showSpinner(onView: self.view)
+        }
+        
+        var offsetParam = ""
+        
+        if keyOffset != "" {
+            
+            offsetParam = "&offset=\(keyOffset)"
+        }
+        
+        let request = NSMutableURLRequest(url: NSURL(string: "https://api.spotify.com/v1/artists/\(artistID)/albums?market=ES\(offsetParam)")! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
         
         if let token = spotifyToken {
             let headers = [
@@ -412,7 +423,6 @@ extension DetailViewController {
             } else {
                 if let data = data {
                     
-                    // TODO paginación key "next"
                     if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                         
                         // Here we navigate through JSON to locate the fields we want to use
@@ -451,9 +461,28 @@ extension DetailViewController {
                                 self.artist?.albums.append(model)
                                 self.shownAlbums.append(model)
                             }
-                            DispatchQueue.main.async {
-                                self.albumsCollectionView.reloadData()
-                                self.saveAlbums()
+                            
+                            // If has next, recall | max to 100
+                            if let next = jsonResponse["next"] as? String {
+                                
+                                if let offset = Utils.getQueryStringParameter(url: next, param: "offset") {
+                                
+                                    if let intOffset = Int(offset), intOffset < 100 {
+                                        
+                                        self.getArtistAlbums(artistID: artistID, keyOffset: offset, isRecall: true)
+                                    } else {
+                                        
+                                        DispatchQueue.main.async {
+                                            self.albumsCollectionView.reloadData()
+                                            self.saveAlbums()
+                                        }
+                                    }
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.albumsCollectionView.reloadData()
+                                    self.saveAlbums()
+                                }
                             }
                         }
                     } else {
