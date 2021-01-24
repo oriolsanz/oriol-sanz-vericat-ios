@@ -38,6 +38,7 @@ class MainViewController: UIViewController {
         
         artistsTableList.removeAll()
         tableview_artists_list.reloadData()
+        tableview_artists_list.isHidden = true
         
         textfield_search_bar.autocorrectionType = .no
         
@@ -85,6 +86,7 @@ extension MainViewController {
     // Func to save data to disk
     func saveData() {
 
+        self.tableview_artists_list.isHidden = false
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         let data = try! encoder.encode(self.artistsTableList)
@@ -102,6 +104,7 @@ extension MainViewController {
             let decoder = JSONDecoder()
             self.artistsTableList = try! decoder.decode([ArtistModel].self, from: data)
             self.tableview_artists_list.reloadData()
+            self.tableview_artists_list.isHidden = false
         } catch {
             debugPrint("Error loading internal data")
         }
@@ -299,7 +302,7 @@ extension MainViewController {
                 }
             } else {
                 if let data = data {
-                    // TODO paginación key "next"
+                    
                     if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                         
                         // Here we navigate through JSON to locate the fields we want to use
